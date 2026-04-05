@@ -1,0 +1,15 @@
+# Instrucciones privadas del proyecto (Claude Code)
+CLAUDE.md
+.claude/
+
+# Lista de invitados con nombres reales (privado)
+invitados.js
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Editores
+.vscode/
+*.swp
+*.swo
