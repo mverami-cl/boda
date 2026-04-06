@@ -211,35 +211,6 @@
       text-transform: uppercase;
       color: var(--oliva);
     }
-    .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      animation: flota 2.5s ease-in-out infinite;
-    }
-    @keyframes flota {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(7px); }
-    }
-    .hero-scroll-barra {
-      width: 1px;
-      height: 38px;
-      background: linear-gradient(to bottom, var(--dorado), transparent);
-    }
-    .hero-scroll-texto {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--dorado);
-      text-align: center;
-      white-space: nowrap;
-    }
 
     /* ================================
        SECCIONES COMPARTIDAS
@@ -393,6 +364,34 @@
       color: var(--dorado);
       margin-bottom: 1.2rem;
     }
+    .bloque-desc {
+      font-size: 0.82rem;
+      color: rgba(250,247,242,0.6);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .llegar-lista {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .llegar-lista li {
+      font-size: 0.82rem;
+      color: rgba(250,247,242,0.6);
+      line-height: 1.65;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .llegar-lista li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--dorado);
+      opacity: 0.5;
+    }
+    .llegar-lista li strong { color: rgba(250,247,242,0.9); font-weight: 400; }
 
     /* ================================
        CRONOGRAMA
@@ -960,6 +959,88 @@
     }
 
     /* ================================
+       SCROLL HINT (hero)
+    ================================ */
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    .hero-scroll-texto {
+      font-size: 0.65rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--dorado);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .hero-scroll-chevron {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      animation: bounce-down 1.8s ease-in-out infinite;
+    }
+    .hero-scroll-chevron svg {
+      width: 20px;
+      height: 12px;
+      stroke: var(--dorado);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.9;
+    }
+    .hero-scroll-chevron svg:last-child { opacity: 0.4; }
+    @keyframes bounce-down {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    /* ================================
+       BOTÓN ACCESIBILIDAD
+    ================================ */
+    .btn-a11y {
+      position: fixed;
+      bottom: 1.6rem;
+      right: 1.6rem;
+      z-index: 998;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--negro);
+      border: 1px solid rgba(201,185,122,0.35);
+      color: var(--dorado);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.65;
+      transition: opacity 0.2s, background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .btn-a11y:hover { opacity: 1; border-color: var(--dorado); }
+    .btn-a11y.activo {
+      background: var(--dorado);
+      color: var(--negro);
+      border-color: var(--dorado);
+      opacity: 1;
+    }
+    /* Modo letra grande: sube el tamaño base y escala todo lo que usa rem */
+    html.grande { font-size: 112%; }
+
+    /* ================================
        RESPONSIVE
     ================================ */
     @media (max-width: 600px) {
@@ -1011,9 +1092,12 @@
       <p class="hero-lugar" id="hero-lugar"></p>
     </div>
 
-    <div class="hero-scroll" aria-hidden="true">
-      <div class="hero-scroll-barra"></div>
+    <div class="hero-scroll" aria-hidden="true" onclick="document.getElementById('detalles').scrollIntoView({behavior:'smooth'})">
       <span class="hero-scroll-texto">Deslizar hacia abajo</span>
+      <div class="hero-scroll-chevron">
+        <svg viewBox="0 0 20 12"><polyline points="2,2 10,10 18,2"/></svg>
+        <svg viewBox="0 0 20 12"><polyline points="2,2 10,10 18,2"/></svg>
+      </div>
     </div>
   </section>
 
@@ -1154,6 +1238,19 @@
           <ul id="lista-hospedaje"></ul>
           <br>
           <p class="nota-pronto">Más información próximamente</p>
+        </div>
+
+        <div class="llegar-bloque">
+          <span class="bloque-num">04</span>
+          <p class="bloque-titulo">Dinero y pagos</p>
+          <p class="bloque-desc">La moneda local es el <strong>Boliviano (BOB)</strong>. Para obtener el mejor tipo de cambio, ten en cuenta:</p>
+          <ul class="llegar-lista">
+            <li>Lleva <strong>dólares en efectivo (USD)</strong> — son la moneda más fácil de cambiar en Bolivia</li>
+            <li>Cambia en <strong>casas de cambio</strong> de Cochabamba, no en cajeros automáticos</li>
+            <li>Los cajeros entregan el tipo de cambio oficial, que es bastante menos conveniente que el del mercado</li>
+            <li>Las tarjetas de crédito funcionan en hoteles y restaurantes, pero conviene llevar algo de efectivo</li>
+            <li>Consulta el tipo de cambio vigente antes de viajar</li>
+          </ul>
         </div>
 
       </div>
@@ -1726,5 +1823,31 @@
     precargarInvitado();
   });
 </script>
+
+<!-- BOTÓN ACCESIBILIDAD: letra grande -->
+<button class="btn-a11y" id="btn-a11y" title="Aumentar tamaño de letra" aria-label="Cambiar tamaño de letra">A</button>
+
+<script>
+  (function () {
+    const btn = document.getElementById('btn-a11y');
+    const KEY = 'boda-letra-grande';
+
+    function aplicar(grande) {
+      document.documentElement.classList.toggle('grande', grande);
+      btn.classList.toggle('activo', grande);
+      btn.title = grande ? 'Reducir tamaño de letra' : 'Aumentar tamaño de letra';
+    }
+
+    // Restaurar preferencia guardada
+    aplicar(localStorage.getItem(KEY) === '1');
+
+    btn.addEventListener('click', function () {
+      const grande = !document.documentElement.classList.contains('grande');
+      localStorage.setItem(KEY, grande ? '1' : '0');
+      aplicar(grande);
+    });
+  })();
+</script>
+
 </body>
 </html>
