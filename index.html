@@ -385,11 +385,13 @@
       user-select: none;
     }
     .bloque-titulo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.55rem;
-      font-weight: 600;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
       color: var(--dorado);
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
 
     /* ================================
@@ -597,17 +599,30 @@
     .radio-opcion {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
       cursor: pointer;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(26,26,26,0.15);
+      transition: border-color 0.2s, background 0.2s;
+      flex: 1;
+    }
+    .radio-opcion:has(input:checked) {
+      border-color: var(--dorado);
+      background: rgba(201,185,122,0.07);
     }
     .radio-opcion input[type="radio"] {
-      width: 15px;
-      height: 15px;
-      accent-color: var(--dorado);
-      border-bottom: none;
-      padding: 0;
+      display: none; /* oculto completamente — la tarjeta es el indicador */
     }
-    .radio-opcion span { font-size: 0.84rem; }
+    .radio-opcion span {
+      font-size: 0.78rem;
+      border-bottom: 1.5px solid transparent;
+      padding-bottom: 1px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .radio-opcion:has(input:checked) span {
+      border-bottom-color: var(--dorado);
+      color: var(--dorado);
+    }
 
     /* Checkboxes de dieta */
     .dieta-opciones {
@@ -651,7 +666,7 @@
       border-left: none;
       transform: rotate(45deg);
     }
-    .dieta-opcion span { font-size: 0.84rem; font-weight: 300; }
+    .dieta-opcion span { font-size: 0.78rem; font-weight: 300; }
     .campo-nota-opcional {
       font-size: 0.6rem;
       color: #aaa;
@@ -662,6 +677,34 @@
       color: #888;
       cursor: default;
       border-bottom-style: dashed;
+    }
+    /* Banner de pases (reemplaza el campo nombre cuando hay código) */
+    .rsvp-pases-banner {
+      border: 1px solid rgba(201,185,122,0.35);
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .rsvp-pases-honor {
+      font-size: 0.6rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--oliva);
+      margin-bottom: 0.5rem;
+    }
+    .rsvp-pases-nombre {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--negro);
+      font-style: italic;
+    }
+    .rsvp-pases-cantidad {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--dorado);
+      text-transform: uppercase;
+      margin-top: 0.3rem;
     }
 
     .btn-enviar {
@@ -1014,17 +1057,15 @@
 
         <div class="detalle-item">
           <div class="detalle-icono">
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <!-- gancho curvo -->
-              <path d="M12 2 C14.5 2 16 3.2 16 5.2 C16 7 14.2 8 12 8"/>
-              <!-- hombros inclinados -->
-              <line x1="12" y1="8" x2="1.5" y2="18"/>
-              <line x1="12" y1="8" x2="22.5" y2="18"/>
-              <!-- barra horizontal -->
-              <line x1="1.5" y1="18" x2="22.5" y2="18"/>
-              <!-- patitas laterales -->
-              <line x1="1.5" y1="18" x2="1.5" y2="20.5"/>
-              <line x1="22.5" y1="18" x2="22.5" y2="20.5"/>
+            <svg viewBox="0 0 24 20" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Gancho: loop pequeño y compacto en la parte superior -->
+              <path d="M12 9 L12 6.5 C12 3.5 15.5 3.5 15.5 6 C15.5 7.5 13.5 8 13 7.5"/>
+              <!-- Hombro izquierdo -->
+              <path d="M12 9 C8 10 2.5 13.5 2 17"/>
+              <!-- Hombro derecho -->
+              <path d="M12 9 C16 10 21.5 13.5 22 17"/>
+              <!-- Barra inferior -->
+              <line x1="2" y1="17" x2="22" y2="17"/>
             </svg>
           </div>
           <p class="detalle-etiqueta">Dress Code</p>
@@ -1137,9 +1178,16 @@
           <input type="hidden" name="codigo_invitado" id="campo-codigo">
           <input type="hidden" name="nombre" id="campo-nombre-hidden">
 
-          <!-- Campo nombre: pre-relleno (readonly) si hay código, editable si no -->
-          <div class="campo" id="campo-nombre-wrap">
-            <label for="campo-nombre" id="campo-nombre-label">Tu nombre</label>
+          <!-- Banner de pases (visible solo con código válido) -->
+          <div class="rsvp-pases-banner" id="rsvp-pases-banner" style="display:none">
+            <p class="rsvp-pases-honor">En su honor reservamos</p>
+            <p class="rsvp-pases-nombre" id="rsvp-pases-nombre"></p>
+            <p class="rsvp-pases-cantidad" id="rsvp-pases-cantidad"></p>
+          </div>
+
+          <!-- Campo nombre libre (visible solo sin código) -->
+          <div class="campo" id="campo-nombre-wrap" style="display:none">
+            <label for="campo-nombre">Tu nombre</label>
             <input type="text" id="campo-nombre" name="nombre_manual" placeholder="Ej. María García" autocomplete="name">
           </div>
 
@@ -1367,29 +1415,62 @@
   // ================================
   // PRECARGA POR URL ?inv=CODIGO
   // ================================
+
+  // Almacena el invitado cargado (desde INVITADOS local o desde Apps Script API)
+  let invitadoActual = null;
+
   function obtenerCodigo() {
     return new URLSearchParams(window.location.search).get('inv') || '';
   }
 
-  function precargarInvitado() {
+  async function precargarInvitado() {
     const codigo = obtenerCodigo();
-    const input  = document.getElementById('campo-nombre');
-    const label  = document.getElementById('campo-nombre-label');
 
-    if (codigo && INVITADOS[codigo]) {
-      // Código válido → pre-rellenar nombre (readonly)
-      const d = INVITADOS[codigo];
-      document.getElementById('campo-codigo').value        = codigo;
-      document.getElementById('campo-nombre-hidden').value = d.nombre;
-      if (input) {
-        input.value    = d.nombre;
-        input.readOnly = true;
-      }
-      if (label) label.textContent = 'Invitado';
-    } else {
-      // Sin código → campo editable y requerido
-      if (input) input.required = true;
+    if (!codigo) {
+      // Sin código → campo nombre libre
+      mostrarCampoNombreLibre();
+      return;
     }
+
+    // 1. Intentar desde invitados.js local (dev / fallback)
+    if (INVITADOS && INVITADOS[codigo]) {
+      aplicarInvitado(codigo, INVITADOS[codigo]);
+      return;
+    }
+
+    // 2. Consultar Google Sheet via Apps Script (producción, seguro)
+    const endpoint = CONFIG.rsvp.endpoint;
+    if (endpoint && !endpoint.includes('TU_URL')) {
+      try {
+        const resp = await fetch(endpoint + '?code=' + encodeURIComponent(codigo));
+        const data = await resp.json();
+        if (data && data.nombre) {
+          aplicarInvitado(codigo, data);
+          return;
+        }
+      } catch (_) {}
+    }
+
+    // 3. Fallback: código no encontrado → campo libre
+    mostrarCampoNombreLibre();
+  }
+
+  function aplicarInvitado(codigo, d) {
+    invitadoActual = { codigo, nombre: d.nombre, personas: Number(d.personas) };
+    document.getElementById('campo-codigo').value        = codigo;
+    document.getElementById('campo-nombre-hidden').value = d.nombre;
+    document.getElementById('rsvp-pases-banner').style.display = 'block';
+    document.getElementById('rsvp-pases-nombre').textContent   = d.nombre;
+    const n = Number(d.personas);
+    document.getElementById('rsvp-pases-cantidad').textContent =
+      n === 1 ? '1 pase' : n + ' pases';
+    document.getElementById('campo-nombre-wrap').style.display = 'none';
+  }
+
+  function mostrarCampoNombreLibre() {
+    document.getElementById('campo-nombre-wrap').style.display = 'flex';
+    const input = document.getElementById('campo-nombre');
+    if (input) input.required = true;
   }
 
   // ================================
@@ -1410,33 +1491,18 @@
   });
 
   // ================================
-  // ENVÍO VIA IFRAME (sin CORS)
+  // ENVÍO A GOOGLE APPS SCRIPT
+  // Usa fetch con Content-Type: text/plain + JSON body.
+  // text/plain es un "simple request" → no hay CORS preflight.
+  // Apps Script lee el body con e.postData.contents.
   // ================================
-  function enviarPorIframe(endpoint, datos) {
-    // Crear iframe oculto como target (se reusa si ya existe)
-    let iframe = document.getElementById('rsvp-iframe');
-    if (!iframe) {
-      iframe = document.createElement('iframe');
-      iframe.id   = 'rsvp-iframe';
-      iframe.name = 'rsvp-iframe';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-    }
-    // Crear form temporal con los datos
-    const tempForm = document.createElement('form');
-    tempForm.method = 'POST';
-    tempForm.action = endpoint;
-    tempForm.target = 'rsvp-iframe';
-    Object.entries(datos).forEach(([k, v]) => {
-      const inp = document.createElement('input');
-      inp.type  = 'hidden';
-      inp.name  = k;
-      inp.value = v ?? '';
-      tempForm.appendChild(inp);
-    });
-    document.body.appendChild(tempForm);
-    tempForm.submit();
-    setTimeout(() => document.body.removeChild(tempForm), 1000);
+  function enviarAAppsScript(endpoint, datos) {
+    fetch(endpoint, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body:    JSON.stringify(datos),
+    }).catch(() => {}); // no-cors nunca da error, pero por si acaso
   }
 
   // ================================
@@ -1449,15 +1515,12 @@
     const asistencia = form.querySelector('input[name="asistencia"]:checked');
     if (!asistencia) return;
 
-    // Resolver nombre (código o campo libre)
-    const codigo = obtenerCodigo();
-    const nombre = (codigo && INVITADOS[codigo])
-      ? INVITADOS[codigo].nombre
+    // Resolver nombre y personas — prioridad: invitadoActual (cargado al abrir la página)
+    const codigo   = obtenerCodigo();
+    const nombre   = invitadoActual
+      ? invitadoActual.nombre
       : (document.getElementById('campo-nombre')?.value.trim() || '');
-
-    const personas = (codigo && INVITADOS[codigo])
-      ? INVITADOS[codigo].personas
-      : 1;
+    const personas = invitadoActual ? invitadoActual.personas : 1;
 
     // Dieta: recoger checkboxes marcados, null si ninguno
     const dietaChecked = ['dieta-vegetariano','dieta-vegano','dieta-celiaco','dieta-ninguna']
@@ -1472,8 +1535,7 @@
     const usarDemo = !endpoint || endpoint.includes('TU_URL_DE_APPS_SCRIPT_AQUI');
 
     if (!usarDemo) {
-      // Enviar via iframe oculto → evita CORS completamente (POST real de navegador)
-      enviarPorIframe(endpoint, {
+      enviarAAppsScript(endpoint, {
         codigo_invitado: codigo,
         nombre:          nombre,
         asistencia:      asistencia.value,
