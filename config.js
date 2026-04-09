@@ -80,7 +80,7 @@ const CONFIG = {
   //  REGALO
   // ----------------------------------------------------------
   regalo: {
-    codigo: null,     // null → muestra "Por confirmar". Ej: 'IVI-MAR26'
+    codigo: '21051993',
     tienda: 'Paris',     // null → muestra "Tienda por confirmar". Ej: 'Falabella'
     url: null,     // null → sin botón. Ej: 'https://novios.falabella.com/...'
   },
