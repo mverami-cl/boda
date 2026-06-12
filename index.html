@@ -79,6 +79,16 @@
       color: var(--dorado);
       text-align: center;
     }
+    .entrada-subtitulo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      font-weight: 300;
+      color: rgba(250,247,242,0.4);
+      text-align: center;
+      max-width: 280px;
+      line-height: 1.7;
+    }
     .btn-entrada {
       margin-top: 1rem;
       padding: 0.9rem 3rem;
@@ -456,6 +466,17 @@
       text-align: left;
       line-height: 1.4;
     }
+    .timeline-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: rgba(201,185,122,0.5);
+      text-align: left;
+      margin-top: 0.15rem;
+      line-height: 1.4;
+      grid-column: 3;
+    }
+    @media (max-width: 600px) { .timeline-desc { grid-column: 2; } }
     @media (max-width: 600px) {
       .timeline::before { left: 20px; transform: none; }
       .timeline-item { grid-template-columns: 20px 1fr; gap: 0 1rem; }
@@ -1063,6 +1084,7 @@
   <h1 class="entrada-nombres"><span id="entrada-ella"></span> <span>&amp;</span> <span id="entrada-el"></span></h1>
   <div class="entrada-linea"></div>
   <p class="entrada-fecha" id="entrada-fecha"></p>
+  <p class="entrada-subtitulo">Una fecha, dos países,<br>y todo el amor del mundo.</p>
   <button class="btn-entrada" onclick="abrirInvitacion()">Abrir invitación</button>
 </div>
 
@@ -1077,7 +1099,7 @@
     <img src="assets/img/flowers-bottom.png" alt="" class="hero-flores-bottom" aria-hidden="true">
 
     <div class="hero-contenido">
-      <p class="hero-pretitulo">Nos casamos</p>
+      <p class="hero-pretitulo">El comienzo de siempre</p>
       <h2 class="hero-nombres">
         <span id="hero-ella"></span>
         <span class="ampersand">&amp;</span>
@@ -1176,31 +1198,37 @@
           <div class="timeline-hora">16:00 h</div>
           <div class="timeline-dot"></div>
           <div class="timeline-texto" data-hora="16:00 h">Ceremonia religiosa</div>
+          <p class="timeline-desc">Donde diremos sí ante Dios y los nuestros</p>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">18:00 h</div>
           <div class="timeline-dot"></div>
           <div class="timeline-texto" data-hora="18:00 h">Recepción</div>
+          <p class="timeline-desc">Brindemos por habernos encontrado</p>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">18:30 h</div>
           <div class="timeline-dot"></div>
           <div class="timeline-texto" data-hora="18:30 h">Vals y brindis</div>
+          <p class="timeline-desc">Nuestro primer baile como esposos</p>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">20:00 h</div>
           <div class="timeline-dot"></div>
           <div class="timeline-texto" data-hora="20:00 h">Cena</div>
+          <p class="timeline-desc">Una mesa larga, como las de familia</p>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">20:30 h</div>
           <div class="timeline-dot"></div>
           <div class="timeline-texto" data-hora="20:30 h">Baile</div>
+          <p class="timeline-desc">Que los zapatos no sobrevivan a la noche</p>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">00:00 h</div>
           <div class="timeline-dot"></div>
           <div class="timeline-texto" data-hora="00:00 h">Fin de la fiesta</div>
+          <p class="timeline-desc">El final de la noche, el inicio de todo</p>
         </div>
       </div>
     </div>
@@ -1267,7 +1295,7 @@
         <div class="ornamento-rombo"></div>
         <div class="ornamento-linea"></div>
       </div>
-      <p class="rsvp-intro">Tu confirmación es muy importante para nosotros.<br>Por favor responde antes del <strong id="rsvp-deadline"></strong></p>
+      <p class="rsvp-intro">Esta fiesta no estaría completa sin ti. Cuéntanos si nos acompañas antes del&nbsp;<strong id="rsvp-deadline"></strong> — cada confirmación nos ayuda a preparar una noche inolvidable para todos.</p>
 
       <div class="rsvp-marco">
         <form class="rsvp-form" id="rsvp-form" action="" method="POST">
@@ -1381,8 +1409,7 @@
         <div class="ornamento-linea"></div>
       </div>
       <p class="regalo-texto">
-        Tu presencia es el mejor regalo.<br>
-        Si deseas hacernos un obsequio, puedes hacerlo mediante nuestro código de novios o lista de regalos.
+        Que viajes hasta Bolivia para celebrar con nosotros ya es un regalo enorme. Si aun así deseas acompañarnos con un detalle, dejamos aquí nuestro código de novios — con todo nuestro cariño y gratitud.
       </p>
       <div class="regalo-marco">
         <p class="regalo-label">Código de novios</p>
