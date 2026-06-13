@@ -9,6 +9,9 @@ invitados.js
 .DS_Store
 .AppleDouble
 
+# Planner local (no publicar)
+plan.html
+
 # Editores
 .vscode/
 *.swp
