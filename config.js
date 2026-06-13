@@ -73,7 +73,7 @@ const CONFIG = {
   // ----------------------------------------------------------
   rsvp: {
     deadline: '1 de septiembre de 2026',
-    endpoint: 'https://script.google.com/macros/s/AKfycbxieEjqtAZpulL6HyK0A_IkZtprlugxBIZCxnoEiNAP8wBndTBceV8_vUUQBO0gm2M/exec',  // ← Pega aquí la URL de tu Google Apps Script (ver instrucciones abajo)
+    endpoint: 'https://script.google.com/macros/s/AKfycbxeYx5WXr091c0yDuF6Ltqc7K9OW3fVTB5GYkl48Hb1KorlxvGI-3w70laZ4R-5OL27/exec',
   },
 
   // ----------------------------------------------------------
