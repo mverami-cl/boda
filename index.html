@@ -9,7 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --negro: #1a1a1a;
+      --negro: #1a1a1a;          /* solo texto */
+      --fondo-oscuro: #2E2019;   /* chocolate — fondos oscuros */
       --crema: #FAF7F2;
       --dorado: #c9b97a;
       --dorado-oscuro: #a89650;
@@ -34,13 +35,19 @@
       position: fixed;
       inset: 0;
       z-index: 1000;
-      background: var(--negro);
+      background: var(--fondo-oscuro) url('assets/img/envelope_intro.png') center/cover no-repeat;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1.8rem;
       transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+    #entrada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 52%, rgba(46,32,25,0.22) 100%);
+      pointer-events: none;
     }
     #entrada.oculto {
       opacity: 0;
@@ -50,7 +57,7 @@
     .entrada-monograma {
       width: 160px;
       height: 160px;
-      color: var(--dorado);
+      color: var(--dorado-oscuro);
       animation: mono-glow 4s ease-in-out infinite;
     }
     @keyframes mono-glow {
@@ -90,9 +97,12 @@
       line-height: 1.7;
     }
     .btn-entrada {
-      margin-top: 1rem;
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
       padding: 0.9rem 3rem;
-      background: transparent;
+      background: var(--fondo-oscuro);
       border: 1px solid var(--dorado);
       color: var(--dorado);
       font-family: 'Jost', sans-serif;
@@ -105,7 +115,12 @@
     }
     .btn-entrada:hover {
       background: var(--dorado);
-      color: var(--negro);
+      color: var(--fondo-oscuro);
+    }
+    .entrada-sello {
+      width: clamp(180px, 28vw, 260px);
+      filter: drop-shadow(0 0 24px rgba(201,185,122,0.35));
+      animation: mono-glow 4s ease-in-out infinite;
     }
 
     /* ================================
@@ -149,17 +164,21 @@
       width: min(680px, 105%);
       pointer-events: none;
       z-index: 1;
-      opacity: 0.62;
+      opacity: 0.3;
+      -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 90%);
+      mask-image: linear-gradient(to bottom, #000 40%, transparent 90%);
     }
     .hero-flores-bottom {
       position: absolute;
       bottom: 0;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) scaleX(-1);
       width: min(680px, 105%);
       pointer-events: none;
       z-index: 1;
-      opacity: 0.62;
+      opacity: 0.3;
+      -webkit-mask-image: linear-gradient(to top, #000 40%, transparent 90%);
+      mask-image: linear-gradient(to top, #000 40%, transparent 90%);
     }
     .hero-contenido {
       position: relative;
@@ -337,7 +356,7 @@
        CÓMO LLEGAR
     ================================ */
     #llegar {
-      background: var(--negro);
+      background: var(--fondo-oscuro);
     }
     #llegar .etiqueta { color: var(--dorado); }
     #llegar .titulo   { color: var(--crema); }
@@ -408,7 +427,7 @@
     /* ================================
        CRONOGRAMA
     ================================ */
-    #cronograma { background: var(--negro); }
+    #cronograma { background: var(--fondo-oscuro); }
     #cronograma .etiqueta { color: var(--dorado); }
     #cronograma .titulo   { color: var(--crema); }
     #cronograma .titulo em { color: var(--dorado); }
@@ -450,7 +469,7 @@
       height: 12px;
       border-radius: 50%;
       border: 1px solid var(--dorado);
-      background: var(--negro);
+      background: var(--fondo-oscuro);
       justify-self: center;
       position: relative;
       z-index: 1;
@@ -468,17 +487,17 @@
       text-align: left;
       line-height: 1.4;
     }
-    .timeline-desc {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 0.85rem;
-      color: rgba(201,185,122,0.5);
-      text-align: left;
-      margin-top: 0.15rem;
-      line-height: 1.4;
-      grid-column: 3;
+    .timeline-lugar {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--dorado);
+      opacity: 0.75;
+      margin-top: 0.3rem;
     }
-    @media (max-width: 600px) { .timeline-desc { grid-column: 2; } }
     @media (max-width: 600px) {
       .timeline::before { left: 20px; transform: none; }
       .timeline-item { grid-template-columns: 20px 1fr; gap: 0 1rem; }
@@ -520,6 +539,32 @@
     .nota-pronto {
       font-size: 0.68rem !important;
       color: rgba(250,247,242,0.3) !important;
+    }
+    .lugar-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--dorado);
+      margin-bottom: 0.35rem;
+    }
+    .lugar-nombre {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: rgba(250,247,242,0.9);
+      margin-bottom: 0.5rem;
+    }
+    .portal-logo-chip {
+      display: inline-block;
+      background: var(--crema);
+      padding: 0.7rem 0.9rem;
+      border-radius: 4px;
+      margin: 0.2rem 0 0.7rem;
+    }
+    .portal-logo {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      height: auto;
     }
 
     /* ================================
@@ -695,6 +740,73 @@
       margin-top: 0.2rem;
       font-style: italic;
     }
+    .campo-intro {
+      font-size: 0.72rem;
+      color: #777;
+      line-height: 1.6;
+      margin: 0.1rem 0 0.3rem;
+    }
+    .acom-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 0.8rem;
+    }
+    .acom-row {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+    .acom-nombre {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(26,26,26,0.18);
+      padding: 0.45rem 0;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--negro);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .acom-nombre:focus { border-bottom-color: var(--dorado); }
+    .acom-nino {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .acom-nino input[type="checkbox"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1px solid rgba(26,26,26,0.28);
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      border-radius: 0;
+    }
+    .acom-nino input[type="checkbox"]:checked {
+      background: var(--dorado);
+      border-color: var(--dorado);
+    }
+    .acom-nino input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 4px;
+      height: 8px;
+      border: 1.5px solid var(--negro);
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+    .acom-nino span { font-size: 0.72rem; font-weight: 300; }
     .campo input[readonly] {
       color: #888;
       cursor: default;
@@ -732,8 +844,8 @@
     .btn-enviar {
       margin-top: 0.8rem;
       padding: 1rem 2rem;
-      background: var(--negro);
-      border: 1px solid var(--negro);
+      background: var(--fondo-oscuro);
+      border: 1px solid var(--fondo-oscuro);
       color: var(--crema);
       font-family: 'Jost', sans-serif;
       font-size: 0.68rem;
@@ -898,9 +1010,9 @@
     .btn-ver-regalo {
       display: inline-block;
       padding: 0.75rem 2rem;
-      background: var(--negro);
+      background: var(--fondo-oscuro);
       color: var(--crema);
-      border: 1px solid var(--negro);
+      border: 1px solid var(--fondo-oscuro);
       font-family: 'Jost', sans-serif;
       font-size: 0.68rem;
       font-weight: 300;
@@ -918,7 +1030,7 @@
     /* ================================
        REGALO
     ================================ */
-    #regalo { background: var(--negro); }
+    #regalo { background: var(--fondo-oscuro); }
     #regalo .etiqueta { color: var(--dorado); }
     #regalo .titulo   { color: var(--crema); }
     #regalo .titulo em { color: var(--dorado); }
@@ -954,24 +1066,37 @@
       color: rgba(250,247,242,0.3);
       margin-top: 0.4rem;
     }
+    .regalo-banco {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--crema);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+    .regalo-cierre {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--dorado);
+      margin-top: 1.6rem;
+    }
 
     /* ================================
        FOOTER
     ================================ */
     footer {
-      background: var(--negro);
+      background: var(--fondo-oscuro);
       border-top: 1px solid rgba(201,185,122,0.08);
       padding: 2.5rem;
       text-align: center;
     }
-    .footer-sello {
-      width: 46px;
-      opacity: 0.4;
-      margin-bottom: 0.9rem;
-      filter: brightness(0) invert(1);
+    .footer-mono {
+      width: 52px;
+      height: 52px;
+      color: rgba(201,185,122,0.45);
+      margin: 0 auto 0.9rem;
       display: block;
-      margin-left: auto;
-      margin-right: auto;
     }
     .footer-texto {
       font-size: 0.6rem;
@@ -1038,7 +1163,7 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: var(--negro);
+      background: var(--fondo-oscuro);
       border: 1px solid rgba(201,185,122,0.35);
       color: var(--dorado);
       font-family: 'Cormorant Garamond', serif;
@@ -1082,23 +1207,19 @@
      PANTALLA DE ENTRADA
 ============================= -->
 <div id="entrada" role="dialog" aria-label="Portada de la invitación">
-  <!-- Monograma I & M -->
+  <!-- Monograma I & M (medallón, único elemento de la portada) -->
   <svg class="entrada-monograma" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <!-- Óvalo decorativo centrado en la I -->
-    <ellipse cx="78" cy="102" rx="44" ry="54" fill="none" stroke="currentColor" stroke-width="0.9"/>
-    <!-- I -->
-    <text x="78" y="155" text-anchor="middle"
+    <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="66" y="124" text-anchor="middle"
           font-family="Cormorant Garamond, Georgia, serif"
-          font-size="128" font-weight="300" fill="currentColor">I</text>
-    <!-- M -->
-    <text x="148" y="155" text-anchor="middle"
+          font-size="76" font-weight="300" fill="currentColor">I</text>
+    <text x="100" y="120" text-anchor="middle"
           font-family="Cormorant Garamond, Georgia, serif"
-          font-size="128" font-weight="300" fill="currentColor">M</text>
+          font-size="48" font-weight="400" font-style="italic" fill="currentColor">&amp;</text>
+    <text x="134" y="124" text-anchor="middle"
+          font-family="Cormorant Garamond, Georgia, serif"
+          font-size="76" font-weight="300" fill="currentColor">M</text>
   </svg>
-  <h1 class="entrada-nombres"><span id="entrada-ella"></span> <span>&amp;</span> <span id="entrada-el"></span></h1>
-  <div class="entrada-linea"></div>
-  <p class="entrada-fecha" id="entrada-fecha"></p>
-  <p class="entrada-subtitulo">Una fecha, dos países,<br>y todo el amor del mundo.</p>
   <button class="btn-entrada" onclick="abrirInvitacion()">Abrir invitación</button>
 </div>
 
@@ -1209,40 +1330,34 @@
 
       <div class="timeline">
         <div class="timeline-item">
-          <div class="timeline-hora">16:00 h</div>
+          <div class="timeline-hora">16:15 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="16:00 h">Ceremonia religiosa</div>
-          <p class="timeline-desc">Donde diremos sí ante Dios y los nuestros</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-hora">18:00 h</div>
-          <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="18:00 h">Recepción</div>
-          <p class="timeline-desc">Brindemos por habernos encontrado</p>
+          <div class="timeline-texto" data-hora="16:15 h">Ceremonia religiosa<span class="timeline-lugar">Iglesia Santa Teresa</span></div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">18:30 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="18:30 h">Vals y brindis</div>
-          <p class="timeline-desc">Nuestro primer baile como esposos</p>
+          <div class="timeline-texto" data-hora="18:30 h">Recepción<span class="timeline-lugar">El Portal</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-hora">19:00 h</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-texto" data-hora="19:00 h">Vals y brindis</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">20:00 h</div>
           <div class="timeline-dot"></div>
           <div class="timeline-texto" data-hora="20:00 h">Cena</div>
-          <p class="timeline-desc">Una mesa larga, como las de familia</p>
         </div>
         <div class="timeline-item">
-          <div class="timeline-hora">20:30 h</div>
+          <div class="timeline-hora">21:00 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="20:30 h">Baile</div>
-          <p class="timeline-desc">Que los zapatos no sobrevivan a la noche</p>
+          <div class="timeline-texto" data-hora="21:00 h">Fiesta</div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-hora">00:00 h</div>
+          <div class="timeline-hora">02:00 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="00:00 h">Fin de la fiesta</div>
-          <p class="timeline-desc">El final de la noche, el inicio de todo</p>
+          <div class="timeline-texto" data-hora="02:00 h">Fin de la fiesta</div>
         </div>
       </div>
     </div>
@@ -1268,31 +1383,50 @@
 
         <div class="llegar-bloque">
           <span class="bloque-num">02</span>
-          <p class="bloque-titulo">El lugar</p>
-          <p id="lugar-desc"></p>
-          <br>
-          <a id="lugar-maps" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
+          <p class="bloque-titulo">Los lugares</p>
+          <p class="lugar-sub">Ceremonia</p>
+          <p class="lugar-nombre" id="lugar-iglesia-nombre"></p>
+          <a id="lugar-iglesia-maps" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
+          <p class="lugar-sub" style="margin-top:1.4rem">Recepción y fiesta</p>
+          <span class="portal-logo-chip"><img class="portal-logo" src="assets/img/el-portal-logo.png" alt="El Portal Centro de Convenciones y Eventos"></span>
+          <p class="lugar-nombre" id="lugar-portal-nombre"></p>
+          <a id="lugar-portal-maps" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
         </div>
 
         <div class="llegar-bloque">
           <span class="bloque-num">03</span>
           <p class="bloque-titulo">Hospedaje sugerido</p>
           <ul id="lista-hospedaje"></ul>
-          <br>
-          <p class="nota-pronto">Más información próximamente</p>
         </div>
 
         <div class="llegar-bloque">
           <span class="bloque-num">04</span>
+          <p class="bloque-titulo">Cómo moverse</p>
+          <ul id="lista-movilidad"></ul>
+        </div>
+
+        <div class="llegar-bloque">
+          <span class="bloque-num">05</span>
           <p class="bloque-titulo">Dinero y pagos</p>
           <p class="bloque-desc">La moneda local es el <strong>Boliviano (BOB)</strong>. Para obtener el mejor tipo de cambio, ten en cuenta:</p>
           <ul class="llegar-lista">
             <li>Lleva <strong>dólares en efectivo (USD)</strong> — son la moneda más fácil de cambiar en Bolivia</li>
             <li>Cambia en <strong>casas de cambio</strong> de Cochabamba, no en cajeros automáticos</li>
-            <li>Los cajeros entregan el tipo de cambio oficial, que es bastante menos conveniente que el del mercado</li>
-            <li>Las tarjetas de crédito funcionan en hoteles y restaurantes, pero conviene llevar algo de efectivo</li>
-            <li>Consulta el tipo de cambio vigente antes de viajar</li>
+            <li>Los cajeros entregan el tipo de cambio oficial, menos conveniente que el del mercado</li>
+            <li>Las tarjetas funcionan en hoteles y restaurantes, pero conviene llevar algo de efectivo</li>
           </ul>
+        </div>
+
+        <div class="llegar-bloque">
+          <span class="bloque-num">06</span>
+          <p class="bloque-titulo">Recomendaciones de Ivanna</p>
+          <ul id="lista-reco-novia"></ul>
+        </div>
+
+        <div class="llegar-bloque">
+          <span class="bloque-num">07</span>
+          <p class="bloque-titulo">Recomendaciones de Mario</p>
+          <ul id="lista-reco-novio"></ul>
         </div>
 
       </div>
@@ -1313,9 +1447,7 @@
 
       <div class="rsvp-marco">
         <form class="rsvp-form" id="rsvp-form" action="" method="POST">
-          <input type="hidden" name="_subject" id="rsvp-subject" value="RSVP">
           <input type="hidden" name="codigo_invitado" id="campo-codigo">
-          <input type="hidden" name="nombre" id="campo-nombre-hidden">
 
           <!-- Banner de pases (visible solo con código válido) -->
           <div class="rsvp-pases-banner" id="rsvp-pases-banner" style="display:none">
@@ -1344,23 +1476,35 @@
             </div>
           </div>
 
+          <!-- Cuántos asisten + nombre de cada pase (visible al confirmar "Sí") -->
+          <div class="campo" id="asistentes-wrap" style="display:none">
+            <label for="select-asisten">¿Cuántas personas asistirán en total?</label>
+            <select id="select-asisten"></select>
+            <div id="acom-rows" class="acom-rows"></div>
+          </div>
+
           <div class="campo">
-            <label>Restricción dietaria <span class="campo-nota-opcional">(opcional — marca las que apliquen)</span></label>
+            <label>Menú y requerimientos especiales <span class="campo-nota-opcional">(opcional)</span></label>
+            <p class="campo-intro">Por favor, indícanos si tú o tus acompañantes requieren un menú especial:</p>
             <div class="dieta-opciones">
               <label class="dieta-opcion">
-                <input type="checkbox" name="dieta_vegetariano" value="vegetariano" id="dieta-vegetariano">
+                <input type="checkbox" value="Vegetariano" id="req-vegetariano">
                 <span>Vegetariano</span>
               </label>
               <label class="dieta-opcion">
-                <input type="checkbox" name="dieta_vegano" value="vegano" id="dieta-vegano">
+                <input type="checkbox" value="Vegano" id="req-vegano">
                 <span>Vegano</span>
               </label>
               <label class="dieta-opcion">
-                <input type="checkbox" name="dieta_celiaco" value="celiaco" id="dieta-celiaco">
+                <input type="checkbox" value="Celíaco" id="req-celiaco">
                 <span>Celíaco</span>
               </label>
               <label class="dieta-opcion">
-                <input type="checkbox" name="dieta_ninguna" value="ninguna" id="dieta-ninguna">
+                <input type="checkbox" value="Menú niño" id="req-nino">
+                <span>Menú niño</span>
+              </label>
+              <label class="dieta-opcion">
+                <input type="checkbox" value="Ninguna" id="req-ninguna">
                 <span>Ninguna</span>
               </label>
             </div>
@@ -1398,7 +1542,7 @@
         <hr class="qr-divisor">
         <p class="qr-evento" id="qr-evento"></p>
         <p class="qr-fecha-evento" id="qr-fecha-evento"></p>
-        <button class="btn-descargar" onclick="descargarQR()">Descargar mi pase</button>
+        <button class="btn-descargar" onclick="descargarQR()">Descargar pase de entrada</button>
         <div class="cal-botones">
           <a id="btn-gcal" href="#" target="_blank" class="btn-cal">Google Calendar</a>
           <a id="btn-ical" href="#" class="btn-cal" download="boda-ivanna-mario.ics">Apple / iCal</a>
@@ -1415,26 +1559,43 @@
   <!-- REGALO -->
   <section id="regalo">
     <div class="wrapper">
-      <p class="etiqueta">Lista de novios</p>
+      <p class="etiqueta">Un obsequio</p>
       <h2 class="titulo">Un detalle <em>para nosotros</em></h2>
       <div class="ornamento">
         <div class="ornamento-linea"></div>
         <div class="ornamento-rombo"></div>
         <div class="ornamento-linea"></div>
       </div>
-      <p class="regalo-texto">
-        Que viajes hasta Bolivia para celebrar con nosotros ya es un regalo enorme. Si aun así deseas acompañarnos con un detalle, dejamos aquí nuestro código de novios — con todo nuestro cariño y gratitud.
-      </p>
-      <div class="regalo-marco">
-        <p class="regalo-label">Código de novios</p>
-        <p class="regalo-codigo" id="regalo-codigo"></p>
-        <p class="regalo-tienda" id="regalo-tienda"></p>
+
+      <!-- Chile → lista de novios -->
+      <div class="regalo-bloque" id="regalo-cl" style="display:none">
+        <p class="regalo-texto" id="regalo-cl-texto"></p>
+        <div class="regalo-marco">
+          <p class="regalo-label">Lista de novios</p>
+          <p class="regalo-codigo" id="regalo-cl-tienda"></p>
+          <p class="regalo-tienda" id="regalo-cl-codigo"></p>
+        </div>
+        <p class="regalo-cierre" id="regalo-cl-cierre"></p>
+      </div>
+
+      <!-- Bolivia → transferencia -->
+      <div class="regalo-bloque" id="regalo-bo" style="display:none">
+        <p class="regalo-texto" id="regalo-bo-texto"></p>
+        <div class="regalo-marco">
+          <p class="regalo-label">Datos para transferencia</p>
+          <p class="regalo-banco" id="regalo-bo-datos"></p>
+        </div>
+        <p class="regalo-cierre" id="regalo-bo-cierre"></p>
       </div>
     </div>
   </section>
 
   <footer>
-    <img src="assets/img/wax-seal.png" alt="" class="footer-sello" aria-hidden="true">
+    <svg class="footer-mono" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="78" cy="102" rx="44" ry="54" fill="none" stroke="currentColor" stroke-width="0.9"/>
+      <text x="78" y="155" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="128" font-weight="300" fill="currentColor">I</text>
+      <text x="148" y="155" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="128" font-weight="300" fill="currentColor">M</text>
+    </svg>
     <p class="footer-texto" id="footer-texto"></p>
   </footer>
 
@@ -1468,30 +1629,32 @@
     // Título de página
     document.title = N.ella + ' & ' + N.el + ' — ' + E.fecha_corta.split('·')[1].trim() + ' ' + E.fecha_iso.split('-')[0];
 
-    // Pantalla de entrada
-    setText('entrada-ella',  N.ella);
-    setText('entrada-el',    N.el);
-    setText('entrada-fecha', E.fecha_corta + ' · ' + L.ciudad.split(',')[0]);
-
     // Hero
     setText('hero-ella',   N.ella);
     setText('hero-el',     N.el);
     setText('hero-fecha',  E.fecha_larga);
-    setText('hero-lugar',  L.nombre + ' · ' + L.ciudad);
+    setText('hero-lugar',  L.portal.nombre + ' · ' + L.ciudad);
 
     // Detalles del evento
     setHtml('det-fecha',    'Viernes<br>' + E.fecha_larga.replace('Viernes, ', ''));
     setText('det-hora',     E.hora);
     setText('det-hora-nota', E.hora_confirmada ? '' : 'Por confirmar');
-    setHtml('det-lugar',    L.nombre + (L.nombre2 ? '<br>' + L.nombre2 : ''));
+    setText('det-lugar',    L.iglesia.nombre);
     setText('det-ciudad',   L.ciudad);
     setText('det-dresscode', I.dress_code);
 
     // Cómo llegar — listas
     renderLista('lista-vuelos', V.vuelos);
     renderLista('lista-hospedaje', V.hospedaje);
-    setText('lugar-desc', L.nombre + (L.nombre2 ? ' ' + L.nombre2 : '') + ',\n' + L.ciudad + '.');
-    setAttr('lugar-maps', 'href', L.maps_url);
+    renderLista('lista-movilidad', V.movilidad);
+    renderRecos('lista-reco-novia', C.recomendaciones.novia);
+    renderRecos('lista-reco-novio', C.recomendaciones.novio);
+
+    // Cómo llegar — lugares (iglesia + portal)
+    setText('lugar-iglesia-nombre', L.iglesia.nombre);
+    setAttr('lugar-iglesia-maps', 'href', L.iglesia.maps_url);
+    setText('lugar-portal-nombre', L.portal.nombre + (L.portal.nombre2 ? ' · ' + L.portal.nombre2 : ''));
+    setAttr('lugar-portal-maps', 'href', L.portal.maps_url);
 
     // RSVP
     setText('rsvp-deadline', E.fecha_corta.split('·')[0].trim() !== '' ? R.deadline : R.deadline);
@@ -1501,15 +1664,18 @@
     setText('qr-evento',      N.ella + ' & ' + N.el);
     setText('qr-fecha-evento', E.fecha_corta);
 
-    // Regalo
-    setText('regalo-codigo', G.codigo  || 'Por confirmar');
-    setText('regalo-tienda', G.tienda  || 'Tienda por confirmar');
+    // Regalo — contenido de ambos bloques (la visibilidad la define aplicarRegaloPais)
+    setText('regalo-cl-texto',  G.cl.texto);
+    setText('regalo-cl-tienda', G.cl.tienda || 'Por confirmar');
+    setText('regalo-cl-codigo', G.cl.codigo ? 'Código: ' + G.cl.codigo : '');
+    setText('regalo-cl-cierre', G.cierre);
+    setText('regalo-bo-texto',  G.bo.texto);
+    setHtml('regalo-bo-datos',  datosBancarios(G.bo));
+    setText('regalo-bo-cierre', G.cierre);
+    aplicarRegaloPais();
 
     // Footer
     setText('footer-texto', N.ella + ' & ' + N.el + ' · ' + E.fecha_iso.split('-')[0] + ' · ' + L.ciudad);
-
-    // RSVP subject
-    setAttr('rsvp-subject', 'value', 'RSVP — Boda ' + N.ella + ' & ' + N.el);
   }
 
   // Helpers
@@ -1530,12 +1696,32 @@
     if (!ul) return;
     ul.innerHTML = items.map(t => '<li>' + t + '</li>').join('');
   }
-  function renderItinerario(id, items) {
+  function renderRecos(id, items) {
     const ul = document.getElementById(id);
     if (!ul) return;
     ul.innerHTML = items.map(i =>
-      '<li><strong style="color:var(--dorado)">' + i.dia + '</strong> — ' + i.detalle + '</li>'
+      '<li><strong style="color:rgba(250,247,242,0.9)">' + i.lugar + '</strong>' +
+      (i.detalle ? ' — ' + i.detalle : '') + '</li>'
     ).join('');
+  }
+
+  // Datos bancarios de Bolivia (placeholder visible si aún no se cargan)
+  function datosBancarios(bo) {
+    const banco   = bo.banco   || '[Banco]';
+    const titular = bo.titular || '[Nombre titular]';
+    const cuenta  = bo.cuenta  || 'XXXX-XXXX';
+    return banco + ' · ' + titular + '<br>Cuenta N.º ' + cuenta;
+  }
+
+  // Muestra el bloque de regalo según el país del invitado.
+  // Sin país conocido (sin código o país vacío) → muestra ambos.
+  function aplicarRegaloPais() {
+    const pais = invitadoActual ? invitadoActual.pais : '';
+    const cl = document.getElementById('regalo-cl');
+    const bo = document.getElementById('regalo-bo');
+    if (!cl || !bo) return;
+    cl.style.display = (pais === 'cl' || !pais) ? 'block' : 'none';
+    bo.style.display = (pais === 'bo' || !pais) ? 'block' : 'none';
   }
 
   // ================================
@@ -1594,39 +1780,104 @@
   }
 
   function aplicarInvitado(codigo, d) {
-    invitadoActual = { codigo, nombre: d.nombre, personas: Number(d.personas) };
-    document.getElementById('campo-codigo').value        = codigo;
-    document.getElementById('campo-nombre-hidden').value = d.nombre;
+    invitadoActual = {
+      codigo,
+      nombre:   d.nombre,
+      personas: Number(d.personas),
+      pais:     (d.pais || '').toLowerCase(),
+    };
+    document.getElementById('campo-codigo').value = codigo;
     document.getElementById('rsvp-pases-banner').style.display = 'block';
     document.getElementById('rsvp-pases-nombre').textContent   = d.nombre;
     const n = Number(d.personas);
     document.getElementById('rsvp-pases-cantidad').textContent =
       n === 1 ? '1 pase' : n + ' pases';
     document.getElementById('campo-nombre-wrap').style.display = 'none';
+    construirSelector();
+    aplicarRegaloPais();
   }
 
   function mostrarCampoNombreLibre() {
     document.getElementById('campo-nombre-wrap').style.display = 'flex';
     const input = document.getElementById('campo-nombre');
     if (input) input.required = true;
+    construirSelector();
+    aplicarRegaloPais();
   }
 
   // ================================
   // CHECKBOXES DIETA — exclusividad de "Ninguna"
   // ================================
-  const dietaOpciones = ['dieta-vegetariano', 'dieta-vegano', 'dieta-celiaco'];
-  const dietaNinguna  = document.getElementById('dieta-ninguna');
+  const reqOpciones = ['req-vegetariano', 'req-vegano', 'req-celiaco', 'req-nino'];
+  const reqNinguna  = document.getElementById('req-ninguna');
 
-  dietaOpciones.forEach(id => {
+  reqOpciones.forEach(id => {
     document.getElementById(id).addEventListener('change', function () {
-      if (this.checked) dietaNinguna.checked = false;
+      if (this.checked) reqNinguna.checked = false;
     });
   });
-  dietaNinguna.addEventListener('change', function () {
+  reqNinguna.addEventListener('change', function () {
     if (this.checked) {
-      dietaOpciones.forEach(id => { document.getElementById(id).checked = false; });
+      reqOpciones.forEach(id => { document.getElementById(id).checked = false; });
     }
   });
+
+  // ================================
+  // RSVP: cuántos asisten + nombres por pase
+  // ================================
+  const asistentesWrap = document.getElementById('asistentes-wrap');
+  const selectAsisten  = document.getElementById('select-asisten');
+  const acomRows       = document.getElementById('acom-rows');
+
+  function maxAsistentes() {
+    return invitadoActual ? Number(invitadoActual.personas) : 6;
+  }
+
+  function construirSelector() {
+    const max = maxAsistentes();
+    selectAsisten.innerHTML = '';
+    for (let i = 1; i <= max; i++) {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = i + (i === 1 ? ' persona' : ' personas');
+      selectAsisten.appendChild(opt);
+    }
+    selectAsisten.value = max;   // por defecto asume el cupo completo
+    renderAcomRows();
+    actualizarAsistentesUI();
+  }
+
+  function renderAcomRows() {
+    const total = Number(selectAsisten.value) || 1;
+    const nComp = Math.max(0, total - 1);   // acompañantes = total − titular
+    const prev = [...acomRows.querySelectorAll('.acom-row')].map(r => ({
+      nombre: r.querySelector('.acom-nombre').value,
+      nino:   r.querySelector('.acom-nino-check').checked,
+    }));
+    acomRows.innerHTML = '';
+    for (let i = 0; i < nComp; i++) {
+      const p = prev[i] || { nombre: '', nino: false };
+      const row = document.createElement('div');
+      row.className = 'acom-row';
+      row.innerHTML =
+        '<input type="text" class="acom-nombre" placeholder="Nombre del acompañante ' + (i + 1) + '">' +
+        '<label class="acom-nino"><input type="checkbox" class="acom-nino-check"><span>Niño/a</span></label>';
+      row.querySelector('.acom-nombre').value = p.nombre;
+      row.querySelector('.acom-nino-check').checked = p.nino;
+      acomRows.appendChild(row);
+    }
+  }
+
+  function actualizarAsistentesUI() {
+    const asiste = document.querySelector('input[name="asistencia"]:checked');
+    const mostrar = !!asiste && asiste.value === 'si' && (maxAsistentes() > 1 || !invitadoActual);
+    asistentesWrap.style.display = mostrar ? 'flex' : 'none';
+  }
+
+  document.querySelectorAll('input[name="asistencia"]').forEach(r =>
+    r.addEventListener('change', actualizarAsistentesUI)
+  );
+  selectAsisten.addEventListener('change', renderAcomRows);
 
   // ================================
   // ENVÍO A GOOGLE APPS SCRIPT
@@ -1654,17 +1905,37 @@
     if (!asistencia) return;
 
     // Resolver nombre y personas — prioridad: invitadoActual (cargado al abrir la página)
-    const codigo   = obtenerCodigo();
-    const nombre   = invitadoActual
+    const codigo = obtenerCodigo();
+    const nombre = invitadoActual
       ? invitadoActual.nombre
       : (document.getElementById('campo-nombre')?.value.trim() || '');
-    const personas = invitadoActual ? invitadoActual.personas : 1;
 
-    // Dieta: recoger checkboxes marcados, null si ninguno
-    const dietaChecked = ['dieta-vegetariano','dieta-vegano','dieta-celiaco','dieta-ninguna']
+    // Sin código, el nombre del titular es obligatorio
+    if (!invitadoActual && !nombre) {
+      document.getElementById('campo-nombre').focus();
+      return;
+    }
+
+    const asiste = asistencia.value === 'si';
+
+    // Cuántos asisten + nombres de acompañantes (acom_1..acom_5)
+    let asisten = 1;
+    const acom = ['', '', '', '', ''];
+    if (asiste && asistentesWrap.style.display !== 'none') {
+      asisten = Number(selectAsisten.value) || 1;
+      [...acomRows.querySelectorAll('.acom-row')].forEach((r, i) => {
+        if (i >= 5) return;
+        const nom  = r.querySelector('.acom-nombre').value.trim();
+        const nino = r.querySelector('.acom-nino-check').checked;
+        acom[i] = nom ? (nino ? nom + ' (niño)' : nom) : '';
+      });
+    }
+
+    // Menú y requerimientos especiales
+    const requerimientos = ['req-vegetariano','req-vegano','req-celiaco','req-nino','req-ninguna']
       .filter(id => document.getElementById(id).checked)
-      .map(id => document.getElementById(id).value);
-    const dieta = dietaChecked.length > 0 ? dietaChecked.join(', ') : null;
+      .map(id => document.getElementById(id).value)
+      .join(', ');
 
     btn.textContent = 'Enviando...';
     btn.disabled    = true;
@@ -1677,15 +1948,16 @@
         codigo_invitado: codigo,
         nombre:          nombre,
         asistencia:      asistencia.value,
-        personas:        String(personas),
-        dieta:           dieta || '',
+        asisten:         String(asiste ? asisten : 0),
+        acom_1: acom[0], acom_2: acom[1], acom_3: acom[2], acom_4: acom[3], acom_5: acom[4],
+        requerimientos:  requerimientos,
         mensaje:         document.getElementById('campo-mensaje').value.trim(),
       });
     }
 
     // Mostrar resultado (optimista — no-cors no permite leer la respuesta)
-    if (asistencia.value === 'si') {
-      mostrarQR(nombre, personas);
+    if (asiste) {
+      mostrarQR(nombre, asisten);
     } else {
       btn.textContent    = '¡Gracias por avisarnos!';
       btn.style.background   = 'var(--oliva)';
@@ -1833,8 +2105,8 @@
     const titulo  = encodeURIComponent(nombreEvento);
     const inicio  = E.hora_iso_inicio;
     const fin     = E.hora_iso_fin;
-    const lugar   = encodeURIComponent(L.nombre + ', ' + L.ciudad);
-    const detalle = encodeURIComponent('Dress code: ' + I.dress_code + '. Boda de destino desde Chile.');
+    const lugar   = encodeURIComponent(L.iglesia.nombre + ', ' + L.ciudad);
+    const detalle = encodeURIComponent('Ceremonia en ' + L.iglesia.nombre + '. Recepción en ' + L.portal.nombre + '. Dress code: ' + I.dress_code + '.');
 
     document.getElementById('btn-gcal').href =
       'https://calendar.google.com/calendar/render?action=TEMPLATE' +
@@ -1847,8 +2119,8 @@
       'DTSTART:' + inicio,
       'DTEND:'   + fin,
       'SUMMARY:' + nombreEvento,
-      'LOCATION:' + L.nombre + '\\, ' + L.ciudad,
-      'DESCRIPTION:Dress code: ' + I.dress_code + '. ' + I.ninos + '.',
+      'LOCATION:' + L.iglesia.nombre + '\\, ' + L.ciudad,
+      'DESCRIPTION:Ceremonia en ' + L.iglesia.nombre + '. Recepción en ' + L.portal.nombre + '. Dress code: ' + I.dress_code + '.',
       'END:VEVENT', 'END:VCALENDAR'
     ].join('\r\n');
 

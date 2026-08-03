@@ -7,9 +7,10 @@
 
 CONFIG.invitados = {
 
-  // 'codigo-url': { nombre: 'Nombre Apellido', personas: N },
+  // 'codigo-url': { nombre: 'Nombre Apellido', personas: N, pais: 'cl'|'bo' },
+  // pais define el bloque de regalo: 'cl' (Chile) o 'bo' (Bolivia).
   // Ejemplo:
-  // 'familia-lopez': { nombre: 'Carlos López',  personas: 3 },
-  // 'amigo-juan':    { nombre: 'Juan Martínez', personas: 1 },
+  // 'familia-lopez': { nombre: 'Carlos López',  personas: 3, pais: 'cl' },
+  // 'amigo-juan':    { nombre: 'Juan Martínez', personas: 1, pais: 'bo' },
 
 };
