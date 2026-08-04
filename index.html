@@ -60,6 +60,11 @@
       color: var(--dorado-oscuro);
       animation: mono-glow 4s ease-in-out infinite;
     }
+    .entrada-logo {
+      width: clamp(150px, 38vw, 230px);
+      height: auto;
+      filter: drop-shadow(0 4px 16px rgba(46,32,25,0.22));
+    }
     @keyframes mono-glow {
       0%, 100% { filter: drop-shadow(0 0 8px rgba(201,185,122,0.15)); opacity: 0.85; }
       50%       { filter: drop-shadow(0 0 22px rgba(201,185,122,0.45)); opacity: 1; }
@@ -241,6 +246,12 @@
       letter-spacing: 0.38em;
       text-transform: uppercase;
       color: var(--oliva);
+    }
+    .hero-portal-logo {
+      width: clamp(130px, 30vw, 165px);
+      height: auto;
+      margin-top: 1.4rem;
+      opacity: 0.9;
     }
 
     /* ================================
@@ -565,6 +576,49 @@
       width: 100%;
       max-width: 200px;
       height: auto;
+    }
+
+    /* ================================
+       RECOMENDACIONES GASTRONÓMICAS
+    ================================ */
+    #recomendaciones { background: var(--fondo-oscuro); }
+    #recomendaciones .etiqueta { color: var(--dorado); }
+    #recomendaciones .titulo   { color: var(--crema); }
+    #recomendaciones .titulo em { color: var(--dorado); }
+    #recomendaciones .ornamento-linea { background: rgba(201,185,122,0.35); }
+    .reco-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+      text-align: left;
+    }
+    .reco-col-titulo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.35rem;
+      color: var(--dorado);
+      margin-bottom: 1.2rem;
+    }
+    .reco-col ul { list-style: none; padding: 0; }
+    .reco-col li {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(250,247,242,0.75);
+      line-height: 1.5;
+      padding: 0.5rem 0 0.5rem 1rem;
+      position: relative;
+      border-bottom: 1px solid rgba(201,185,122,0.12);
+    }
+    .reco-col li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--dorado);
+      opacity: 0.6;
+    }
+    @media (max-width: 600px) {
+      .reco-grid { grid-template-columns: 1fr; gap: 2.2rem; }
     }
 
     /* ================================
@@ -922,7 +976,22 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--oliva);
-      margin-bottom: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .qr-lista { margin-bottom: 1.6rem; }
+    .qr-lista-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--dorado);
+      margin-bottom: 0.5rem;
+    }
+    .qr-lista-nombre {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--negro);
+      line-height: 1.55;
     }
     .qr-codigo {
       display: flex;
@@ -1091,12 +1160,14 @@
       padding: 2.5rem;
       text-align: center;
     }
-    .footer-mono {
-      width: 52px;
-      height: 52px;
-      color: rgba(201,185,122,0.45);
+    .footer-logo {
+      width: 68px;
+      height: 61px;
       margin: 0 auto 0.9rem;
-      display: block;
+      background: var(--dorado);
+      opacity: 0.85;
+      -webkit-mask: url('assets/img/im-logo.png') center/contain no-repeat;
+              mask: url('assets/img/im-logo.png') center/contain no-repeat;
     }
     .footer-texto {
       font-size: 0.6rem;
@@ -1186,7 +1257,7 @@
       opacity: 1;
     }
     /* Modo letra grande: sube el tamaño base y escala todo lo que usa rem */
-    html.grande { font-size: 112%; }
+    html.grande { font-size: 130%; }
 
     /* ================================
        RESPONSIVE
@@ -1207,19 +1278,8 @@
      PANTALLA DE ENTRADA
 ============================= -->
 <div id="entrada" role="dialog" aria-label="Portada de la invitación">
-  <!-- Monograma I & M (medallón, único elemento de la portada) -->
-  <svg class="entrada-monograma" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="1"/>
-    <text x="66" y="124" text-anchor="middle"
-          font-family="Cormorant Garamond, Georgia, serif"
-          font-size="76" font-weight="300" fill="currentColor">I</text>
-    <text x="100" y="120" text-anchor="middle"
-          font-family="Cormorant Garamond, Georgia, serif"
-          font-size="48" font-weight="400" font-style="italic" fill="currentColor">&amp;</text>
-    <text x="134" y="124" text-anchor="middle"
-          font-family="Cormorant Garamond, Georgia, serif"
-          font-size="76" font-weight="300" fill="currentColor">M</text>
-  </svg>
+  <!-- Logo I·M (único elemento de la portada) -->
+  <img src="assets/img/im-logo.png" alt="Ivanna & Mario" class="entrada-logo">
   <button class="btn-entrada" onclick="abrirInvitacion()">Abrir invitación</button>
 </div>
 
@@ -1231,10 +1291,13 @@
   <!-- HERO -->
   <section class="hero" id="inicio">
     <img src="assets/img/flowers-top.png" alt="" class="hero-flores-top" aria-hidden="true">
+    <!-- Flor inferior omitida por ahora. Para reactivarla, descomenta esta línea
+         (el estilo .hero-flores-bottom se mantiene intacto):
     <img src="assets/img/flowers-bottom.png" alt="" class="hero-flores-bottom" aria-hidden="true">
+    -->
 
     <div class="hero-contenido">
-      <p class="hero-pretitulo">El comienzo de siempre</p>
+      <p class="hero-pretitulo">Nos casamos</p>
       <h2 class="hero-nombres">
         <span id="hero-ella"></span>
         <span class="ampersand">&amp;</span>
@@ -1247,6 +1310,7 @@
       </div>
       <p class="hero-fecha" id="hero-fecha"></p>
       <p class="hero-lugar" id="hero-lugar"></p>
+      <img src="assets/img/el-portal-logo.png" alt="El Portal Centro de Convenciones y Eventos" class="hero-portal-logo">
     </div>
 
     <div class="hero-scroll" aria-hidden="true" onclick="document.getElementById('detalles').scrollIntoView({behavior:'smooth'})">
@@ -1332,7 +1396,7 @@
         <div class="timeline-item">
           <div class="timeline-hora">16:15 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="16:15 h">Ceremonia religiosa<span class="timeline-lugar">Iglesia Santa Teresa</span></div>
+          <div class="timeline-texto" data-hora="16:15 h">Ceremonia<span class="timeline-lugar">Iglesia Santa Teresa</span></div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">18:30 h</div>
@@ -1340,24 +1404,14 @@
           <div class="timeline-texto" data-hora="18:30 h">Recepción<span class="timeline-lugar">El Portal</span></div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-hora">19:00 h</div>
-          <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="19:00 h">Vals y brindis</div>
-        </div>
-        <div class="timeline-item">
           <div class="timeline-hora">20:00 h</div>
           <div class="timeline-dot"></div>
           <div class="timeline-texto" data-hora="20:00 h">Cena</div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-hora">21:00 h</div>
-          <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="21:00 h">Fiesta</div>
-        </div>
-        <div class="timeline-item">
           <div class="timeline-hora">02:00 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="02:00 h">Fin de la fiesta</div>
+          <div class="timeline-texto" data-hora="02:00 h">Fin del evento</div>
         </div>
       </div>
     </div>
@@ -1388,7 +1442,6 @@
           <p class="lugar-nombre" id="lugar-iglesia-nombre"></p>
           <a id="lugar-iglesia-maps" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
           <p class="lugar-sub" style="margin-top:1.4rem">Recepción y fiesta</p>
-          <span class="portal-logo-chip"><img class="portal-logo" src="assets/img/el-portal-logo.png" alt="El Portal Centro de Convenciones y Eventos"></span>
           <p class="lugar-nombre" id="lugar-portal-nombre"></p>
           <a id="lugar-portal-maps" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
         </div>
@@ -1408,27 +1461,39 @@
         <div class="llegar-bloque">
           <span class="bloque-num">05</span>
           <p class="bloque-titulo">Dinero y pagos</p>
-          <p class="bloque-desc">La moneda local es el <strong>Boliviano (BOB)</strong>. Para obtener el mejor tipo de cambio, ten en cuenta:</p>
+          <p class="bloque-desc">La moneda local es el <strong>Boliviano (BOB)</strong>. Te recomendamos:</p>
           <ul class="llegar-lista">
-            <li>Lleva <strong>dólares en efectivo (USD)</strong> — son la moneda más fácil de cambiar en Bolivia</li>
-            <li>Cambia en <strong>casas de cambio</strong> de Cochabamba, no en cajeros automáticos</li>
-            <li>Los cajeros entregan el tipo de cambio oficial, menos conveniente que el del mercado</li>
-            <li>Las tarjetas funcionan en hoteles y restaurantes, pero conviene llevar algo de efectivo</li>
+            <li>Llevar <strong>dólares en efectivo (USD)</strong> — son la moneda más fácil de cambiar en Bolivia</li>
+            <li>Cambiar en <strong>casas de cambio</strong> de Cochabamba</li>
+            <li>Otra opción es extraer dinero de cajeros automáticos</li>
+            <li>Las tarjetas de crédito funcionan en hoteles y restaurantes, pero siempre conviene llevar algo de efectivo</li>
           </ul>
         </div>
 
-        <div class="llegar-bloque">
-          <span class="bloque-num">06</span>
-          <p class="bloque-titulo">Recomendaciones de Ivanna</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECOMENDACIONES GASTRONÓMICAS -->
+  <section id="recomendaciones">
+    <div class="wrapper">
+      <p class="etiqueta">Para comer rico</p>
+      <h2 class="titulo">Recomendaciones <em>gastronómicas</em></h2>
+      <div class="ornamento">
+        <div class="ornamento-linea"></div>
+        <div class="ornamento-rombo"></div>
+        <div class="ornamento-linea"></div>
+      </div>
+
+      <div class="reco-grid">
+        <div class="reco-col">
+          <p class="reco-col-titulo">Los favoritos de Ivanna</p>
           <ul id="lista-reco-novia"></ul>
         </div>
-
-        <div class="llegar-bloque">
-          <span class="bloque-num">07</span>
-          <p class="bloque-titulo">Recomendaciones de Mario</p>
+        <div class="reco-col">
+          <p class="reco-col-titulo">Los favoritos de Mario</p>
           <ul id="lista-reco-novio"></ul>
         </div>
-
       </div>
     </div>
   </section>
@@ -1500,10 +1565,6 @@
                 <span>Celíaco</span>
               </label>
               <label class="dieta-opcion">
-                <input type="checkbox" value="Menú niño" id="req-nino">
-                <span>Menú niño</span>
-              </label>
-              <label class="dieta-opcion">
                 <input type="checkbox" value="Ninguna" id="req-ninguna">
                 <span>Ninguna</span>
               </label>
@@ -1536,6 +1597,7 @@
       <div class="qr-pase" id="qr-pase">
         <p class="qr-nombre" id="qr-nombre"></p>
         <p class="qr-info" id="qr-info"></p>
+        <div class="qr-lista" id="qr-lista"></div>
         <div class="qr-codigo">
           <div id="qr-canvas"></div>
         </div>
@@ -1559,7 +1621,7 @@
   <!-- REGALO -->
   <section id="regalo">
     <div class="wrapper">
-      <p class="etiqueta">Un obsequio</p>
+      <p class="etiqueta">Por último</p>
       <h2 class="titulo">Un detalle <em>para nosotros</em></h2>
       <div class="ornamento">
         <div class="ornamento-linea"></div>
@@ -1572,8 +1634,8 @@
         <p class="regalo-texto" id="regalo-cl-texto"></p>
         <div class="regalo-marco">
           <p class="regalo-label">Lista de novios</p>
-          <p class="regalo-codigo" id="regalo-cl-tienda"></p>
-          <p class="regalo-tienda" id="regalo-cl-codigo"></p>
+          <p class="regalo-codigo" id="regalo-cl-codigo"></p>
+          <p class="regalo-tienda" id="regalo-cl-tienda"></p>
         </div>
         <p class="regalo-cierre" id="regalo-cl-cierre"></p>
       </div>
@@ -1591,11 +1653,7 @@
   </section>
 
   <footer>
-    <svg class="footer-mono" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="78" cy="102" rx="44" ry="54" fill="none" stroke="currentColor" stroke-width="0.9"/>
-      <text x="78" y="155" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="128" font-weight="300" fill="currentColor">I</text>
-      <text x="148" y="155" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="128" font-weight="300" fill="currentColor">M</text>
-    </svg>
+    <div class="footer-logo" role="img" aria-label="Ivanna & Mario"></div>
     <p class="footer-texto" id="footer-texto"></p>
   </footer>
 
@@ -1607,6 +1665,8 @@
 <script src="invitados.js"></script>
 <!-- qrcode.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<!-- jsPDF — pase de entrada en PDF vectorial -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   // ================================
   // DATOS DESDE config.js + invitados.js
@@ -1633,7 +1693,7 @@
     setText('hero-ella',   N.ella);
     setText('hero-el',     N.el);
     setText('hero-fecha',  E.fecha_larga);
-    setText('hero-lugar',  L.portal.nombre + ' · ' + L.ciudad);
+    setText('hero-lugar',  L.ciudad);
 
     // Detalles del evento
     setHtml('det-fecha',    'Viernes<br>' + E.fecha_larga.replace('Viernes, ', ''));
@@ -1666,8 +1726,8 @@
 
     // Regalo — contenido de ambos bloques (la visibilidad la define aplicarRegaloPais)
     setText('regalo-cl-texto',  G.cl.texto);
-    setText('regalo-cl-tienda', G.cl.tienda || 'Por confirmar');
-    setText('regalo-cl-codigo', G.cl.codigo ? 'Código: ' + G.cl.codigo : '');
+    setText('regalo-cl-codigo', G.cl.codigo || 'Por confirmar');
+    setText('regalo-cl-tienda', G.cl.tienda ? 'Novios ' + G.cl.tienda : '');
     setText('regalo-cl-cierre', G.cierre);
     setText('regalo-bo-texto',  G.bo.texto);
     setHtml('regalo-bo-datos',  datosBancarios(G.bo));
@@ -1808,7 +1868,7 @@
   // ================================
   // CHECKBOXES DIETA — exclusividad de "Ninguna"
   // ================================
-  const reqOpciones = ['req-vegetariano', 'req-vegano', 'req-celiaco', 'req-nino'];
+  const reqOpciones = ['req-vegetariano', 'req-vegano', 'req-celiaco'];
   const reqNinguna  = document.getElementById('req-ninguna');
 
   reqOpciones.forEach(id => {
@@ -1932,7 +1992,7 @@
     }
 
     // Menú y requerimientos especiales
-    const requerimientos = ['req-vegetariano','req-vegano','req-celiaco','req-nino','req-ninguna']
+    const requerimientos = ['req-vegetariano','req-vegano','req-celiaco','req-ninguna']
       .filter(id => document.getElementById(id).checked)
       .map(id => document.getElementById(id).value)
       .join(', ');
@@ -1957,7 +2017,8 @@
 
     // Mostrar resultado (optimista — no-cors no permite leer la respuesta)
     if (asiste) {
-      mostrarQR(nombre, asisten);
+      const confirmados = [nombre].concat(acom.filter(Boolean));
+      mostrarQR(nombre, asisten, confirmados);
     } else {
       btn.textContent    = '¡Gracias por avisarnos!';
       btn.style.background   = 'var(--oliva)';
@@ -1969,8 +2030,12 @@
   // GENERACIÓN QR
   // ================================
   let qrObj = null;
+  let paseData = { nombre: '', personas: 1, confirmados: [] };
 
-  function mostrarQR(nombre, personas) {
+  function mostrarQR(nombre, personas, confirmados) {
+    confirmados = (confirmados && confirmados.length) ? confirmados : [nombre];
+    paseData = { nombre: nombre, personas: personas, confirmados: confirmados };
+
     const codigo  = obtenerCodigo() || hashCorto(nombre);
     const payload = JSON.stringify({
       n: nombre,
@@ -1982,7 +2047,14 @@
 
     document.getElementById('qr-nombre').textContent = nombre;
     document.getElementById('qr-info').textContent =
-      personas + (personas === 1 ? ' persona' : ' personas') + ' · Dress code formal';
+      personas + (personas === 1 ? ' persona confirmada' : ' personas confirmadas') + ' · Dress code formal';
+
+    // Invitados confirmados en el pase
+    const lista = document.getElementById('qr-lista');
+    lista.innerHTML = confirmados.length > 1
+      ? '<p class="qr-lista-label">Invitados confirmados</p>' +
+        confirmados.map(n => '<div class="qr-lista-nombre">' + n + '</div>').join('')
+      : '';
 
     // Limpiar contenedor
     const contenedor = document.getElementById('qr-canvas');
@@ -2019,77 +2091,69 @@
   // DESCARGAR PASE
   // ================================
   function descargarQR() {
-    const nombre = document.getElementById('qr-nombre').textContent;
-    const c = document.createElement('canvas');
-    const ctx = c.getContext('2d');
-    c.width = 400; c.height = 520;
+    const jsPDFCtor = window.jspdf && window.jspdf.jsPDF;
+    if (!jsPDFCtor) { alert('No se pudo cargar el generador de PDF. Revisa tu conexión e intenta de nuevo.'); return; }
 
-    ctx.fillStyle = '#FAF7F2';
-    ctx.fillRect(0, 0, 400, 520);
+    const N = CONFIG.novios;
+    const doc = new jsPDFCtor({ unit: 'mm', format: [105, 148], orientation: 'portrait' });
 
-    // Marco dorado
-    ctx.strokeStyle = '#c9b97a';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(18, 18, 364, 484);
+    const gold  = [201, 185, 122];
+    const negro = [26, 26, 26];
+    const oliva = [74, 92, 58];
+    const crema = [250, 247, 242];
 
-    // Etiqueta superior
-    ctx.fillStyle = '#c9b97a';
-    ctx.font = '600 10px Jost, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.letterSpacing = '4px';
-    ctx.fillText('PASE DE ACCESO', 200, 52);
+    // Fondo crema
+    doc.setFillColor(crema[0], crema[1], crema[2]);
+    doc.rect(0, 0, 105, 148, 'F');
 
-    // Nombre
-    ctx.fillStyle = '#1a1a1a';
-    ctx.font = 'italic 30px Georgia, serif';
-    ctx.letterSpacing = '0px';
-    ctx.fillText(nombre, 200, 100);
+    // Marco dorado doble
+    doc.setDrawColor(gold[0], gold[1], gold[2]);
+    doc.setLineWidth(0.6); doc.rect(6, 6, 93, 136);
+    doc.setLineWidth(0.2); doc.rect(8, 8, 89, 132);
 
-    // Info evento
-    ctx.fillStyle = '#4a5c3a';
-    ctx.font = '300 11px sans-serif';
-    ctx.fillText(CONFIG.novios.ella + ' & ' + CONFIG.novios.el + ' · ' + CONFIG.evento.fecha_corta.split('·').slice(1,3).join('·').trim(), 200, 128);
+    // Etiqueta
+    doc.setTextColor(gold[0], gold[1], gold[2]);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8);
+    doc.text('P A S E   D E   E N T R A D A', 52.5, 18, { align: 'center' });
+
+    // Novios
+    doc.setTextColor(negro[0], negro[1], negro[2]);
+    doc.setFont('times', 'italic'); doc.setFontSize(22);
+    doc.text(N.ella + ' & ' + N.el, 52.5, 30, { align: 'center' });
+
+    // Fecha
+    doc.setTextColor(oliva[0], oliva[1], oliva[2]);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    doc.text(CONFIG.evento.fecha_corta, 52.5, 37, { align: 'center' });
 
     // QR
     const qrImg = document.querySelector('#qr-canvas img');
-    if (qrImg) {
-      const tmp = new Image();
-      tmp.onload = () => {
-        ctx.drawImage(tmp, 110, 155, 180, 180);
-        finalizarDescarga(ctx, c, nombre);
-      };
-      tmp.src = qrImg.src;
-    } else {
-      finalizarDescarga(ctx, c, nombre);
-    }
-  }
+    if (qrImg && qrImg.src) doc.addImage(qrImg.src, 'PNG', 39.5, 43, 26, 26);
 
-  function finalizarDescarga(ctx, c, nombre) {
-    ctx.strokeStyle = 'rgba(201,185,122,0.3)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(40, 368); ctx.lineTo(360, 368);
-    ctx.stroke();
-    ctx.setLineDash([]);
+    // Divisor
+    doc.setDrawColor(gold[0], gold[1], gold[2]);
+    doc.setLineWidth(0.2); doc.line(24, 76, 81, 76);
 
-    ctx.fillStyle = '#1a1a1a';
-    ctx.font = 'italic 18px Georgia, serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(CONFIG.novios.ella + ' & ' + CONFIG.novios.el, 200, 408);
+    // Invitados confirmados
+    doc.setTextColor(gold[0], gold[1], gold[2]);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(7);
+    doc.text('INVITADOS CONFIRMADOS', 52.5, 84, { align: 'center' });
 
-    ctx.fillStyle = '#c9b97a';
-    ctx.font = '300 10px sans-serif';
-    ctx.fillText(CONFIG.evento.fecha_corta.toUpperCase(), 200, 432);
+    doc.setTextColor(negro[0], negro[1], negro[2]);
+    doc.setFont('times', 'normal'); doc.setFontSize(12);
+    let y = 92;
+    (paseData.confirmados || [paseData.nombre]).forEach(function (n) {
+      doc.text(String(n), 52.5, y, { align: 'center' });
+      y += 6.5;
+    });
 
-    ctx.fillStyle = '#4a5c3a';
-    ctx.font = '300 9px sans-serif';
-    ctx.fillText('DRESS CODE: ' + CONFIG.evento_info.dress_code.toUpperCase() + ' · ' + CONFIG.evento_info.ninos.toUpperCase(), 200, 458);
+    // Dress code (pie)
+    doc.setTextColor(oliva[0], oliva[1], oliva[2]);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7);
+    doc.text('DRESS CODE: ' + CONFIG.evento_info.dress_code.toUpperCase(), 52.5, 134, { align: 'center' });
 
-    const link = document.createElement('a');
-    link.download = 'pase-boda-' + nombre.toLowerCase().replace(/\s+/g, '-') + '.png';
-    link.href = c.toDataURL('image/png');
-    link.click();
+    const slug = (paseData.nombre || 'invitado').toLowerCase().replace(/\s+/g, '-');
+    doc.save('pase-boda-' + slug + '.pdf');
   }
 
   // ================================

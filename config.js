@@ -78,17 +78,17 @@ const CONFIG = {
   // ----------------------------------------------------------
   recomendaciones: {
     novia: [
-      { lugar: 'Typical Café',        detalle: '' },
-      { lugar: 'Cayena Café',         detalle: '' },
+      { lugar: 'Typica Café',        detalle: '' },
+      { lugar: 'Cayenna Café',         detalle: '' },
       { lugar: 'Punto de Encuentro',  detalle: 'Charque' },
       { lugar: 'Helado de Canela',    detalle: 'La Recoleta' },
     ],
     novio: [
-      { lugar: 'La Casa de Campo',    detalle: 'Pique macho o silpancho' },
-      { lugar: 'Castores',            detalle: 'Pedir salteñas' },
+      { lugar: 'La Casa de Campo',    detalle: 'Pique macho o Silpancho' },
+      { lugar: 'Castores',            detalle: 'Salteñas' },
       { lugar: 'Romero y Julieta',    detalle: 'Café y croissants' },
-      { lugar: 'Pollo Choco',         detalle: '' },
-      { lugar: 'Wistupiku',           detalle: 'Cuñapés y tojorí' },
+      { lugar: 'Pollo Choco',         detalle: 'Pollo frito estilo Cochabamba' },
+      { lugar: 'Wistupiku',           detalle: 'Cuñapés y Tojorí' },
     ],
   },
 
