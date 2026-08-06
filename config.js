@@ -21,9 +21,9 @@ const CONFIG = {
     fecha_larga: 'Viernes, 23 de Octubre de 2026',   // Hero y detalles
     fecha_corta: 'Viernes · 23 de Octubre · 2026',   // Entrada y pie
     fecha_iso: '2026-10-23',                        // Para el calendario (.ics)
-    hora: '16:15 h',                               // Convocatoria / ceremonia
+    hora: '16:00 h',                               // Convocatoria / ceremonia
     hora_confirmada: true,    // false → muestra "(por confirmar)" junto a la hora
-    hora_iso_inicio: '20261023T161500',                  // Para calendario (ceremonia 16:15)
+    hora_iso_inicio: '20261023T160000',                  // Para calendario (ceremonia 16:15)
     hora_iso_fin: '20261024T020000',                     // Fin de fiesta 02:00
   },
 
@@ -34,11 +34,13 @@ const CONFIG = {
     ciudad: 'Cochabamba, Bolivia',
     iglesia: {
       nombre: 'Iglesia Santa Teresa',
+      hora: '16:15 h',
       maps_url: 'https://maps.app.goo.gl/JU3vovUHsKKZ5CgL6',
     },
     portal: {
       nombre: 'El Portal',
       nombre2: 'Centro de Convenciones y Eventos',   // puede dejarse ''
+      hora: '18:30 h',
       maps_url: 'https://maps.google.com/?q=El+Portal+Centro+de+Convenciones+Cochabamba+Bolivia',
     },
   },
@@ -65,11 +67,11 @@ const CONFIG = {
     ],
     hospedaje: [
       'Hotel Cochabamba',
-      'Airbnb — zona Parque Fidelanze o Cala Cala',
+      'Airbnb — zona Parque Fidel Anze o Cala Cala',
     ],
     movilidad: [
       'App <strong>InDrive</strong> para moverte por la ciudad',
-      'Lleva efectivo — los conductores lo prefieren',
+      'Lleva efectivo en pesos Bolivianos para taxis y propinas',
     ],
   },
 
@@ -81,7 +83,7 @@ const CONFIG = {
       { lugar: 'Typica Café',        detalle: '' },
       { lugar: 'Cayenna Café',         detalle: '' },
       { lugar: 'Punto de Encuentro',  detalle: 'Charque' },
-      { lugar: 'Helado de Canela',    detalle: 'La Recoleta' },
+      { lugar: 'Heladería La Recoleta',    detalle: 'Helado de Canela o Leche'},
     ],
     novio: [
       { lugar: 'La Casa de Campo',    detalle: 'Pique macho o Silpancho' },

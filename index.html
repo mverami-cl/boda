@@ -381,6 +381,13 @@
       margin-top: 3rem;
       text-align: left;
     }
+    /* Invitado boliviano: solo el cuadro de lugares, centrado */
+    #llegar.solo-lugares .llegar-grid {
+      grid-template-columns: minmax(0, 460px);
+      justify-content: center;
+    }
+    #llegar.solo-lugares .llegar-bloque { padding: 2.4rem 2.2rem; }
+    #llegar.solo-lugares .bloque-num { display: none; }
     .llegar-bloque {
       border: 1px solid rgba(201,185,122,0.2);
       padding: 2rem 1.8rem;
@@ -811,6 +818,14 @@
       align-items: center;
       gap: 0.9rem;
     }
+    .acom-badge {
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dorado);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
     .acom-nombre {
       flex: 1;
       background: transparent;
@@ -1062,6 +1077,44 @@
       border-color: var(--dorado);
       color: var(--dorado);
     }
+    /* Regalo dentro de la tarjeta del pase */
+    .qr-regalo { margin-top: 0.4rem; }
+    .qr-regalo-titulo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--dorado-oscuro);
+      margin-bottom: 0.9rem;
+    }
+    .qr-regalo-bloque { margin-bottom: 0.9rem; }
+    .qr-regalo-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--oliva);
+      margin-bottom: 0.35rem;
+    }
+    .qr-regalo-codigo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--negro);
+      letter-spacing: 0.1em;
+    }
+    .qr-regalo-banco {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--negro);
+      line-height: 1.5;
+    }
+    .qr-regalo-cierre {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--dorado);
+      margin-top: 0.6rem;
+    }
+
     .qr-cta {
       max-width: 360px;
       margin: 2rem auto 0;
@@ -1279,7 +1332,7 @@
 ============================= -->
 <div id="entrada" role="dialog" aria-label="Portada de la invitación">
   <!-- Logo I·M (único elemento de la portada) -->
-  <img src="assets/img/im-logo.png" alt="Ivanna & Mario" class="entrada-logo">
+  <img src="assets/img/wax-logo.png" alt="Ivanna & Mario" class="entrada-logo">
   <button class="btn-entrada" onclick="abrirInvitacion()">Abrir invitación</button>
 </div>
 
@@ -1394,9 +1447,9 @@
 
       <div class="timeline">
         <div class="timeline-item">
-          <div class="timeline-hora">16:15 h</div>
+          <div class="timeline-hora">16:00 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="16:15 h">Ceremonia<span class="timeline-lugar">Iglesia Santa Teresa</span></div>
+          <div class="timeline-texto" data-hora="16:00 h">Ceremonia<span class="timeline-lugar">Iglesia Santa Teresa</span></div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">18:30 h</div>
@@ -1429,7 +1482,7 @@
       </div>
 
       <div class="llegar-grid">
-        <div class="llegar-bloque">
+        <div class="llegar-bloque solo-viaje">
           <span class="bloque-num">01</span>
           <p class="bloque-titulo">Vuelos recomendados</p>
           <ul id="lista-vuelos"></ul>
@@ -1446,19 +1499,19 @@
           <a id="lugar-portal-maps" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
         </div>
 
-        <div class="llegar-bloque">
+        <div class="llegar-bloque solo-viaje">
           <span class="bloque-num">03</span>
           <p class="bloque-titulo">Hospedaje sugerido</p>
           <ul id="lista-hospedaje"></ul>
         </div>
 
-        <div class="llegar-bloque">
+        <div class="llegar-bloque solo-viaje">
           <span class="bloque-num">04</span>
           <p class="bloque-titulo">Cómo moverse</p>
           <ul id="lista-movilidad"></ul>
         </div>
 
-        <div class="llegar-bloque">
+        <div class="llegar-bloque solo-viaje">
           <span class="bloque-num">05</span>
           <p class="bloque-titulo">Dinero y pagos</p>
           <p class="bloque-desc">La moneda local es el <strong>Boliviano (BOB)</strong>. Te recomendamos:</p>
@@ -1545,6 +1598,7 @@
           <div class="campo" id="asistentes-wrap" style="display:none">
             <label for="select-asisten">¿Cuántas personas asistirán en total?</label>
             <select id="select-asisten"></select>
+            <p class="campo-intro">Confirma el nombre de cada persona (puedes corregir los datos):</p>
             <div id="acom-rows" class="acom-rows"></div>
           </div>
 
@@ -1586,7 +1640,7 @@
   <section id="qr-section">
     <div class="wrapper">
       <p class="etiqueta">Tu acceso</p>
-      <h2 class="titulo">Pase <em>VIP</em></h2>
+      <h2 class="titulo">Pase de <em>Entrada</em></h2>
       <div class="ornamento">
         <div class="ornamento-linea"></div>
         <div class="ornamento-rombo"></div>
@@ -1609,11 +1663,14 @@
           <a id="btn-gcal" href="#" target="_blank" class="btn-cal">Google Calendar</a>
           <a id="btn-ical" href="#" class="btn-cal" download="boda-ivanna-mario.ics">Apple / iCal</a>
         </div>
-      </div>
 
-      <div class="qr-cta" id="qr-cta" style="display:none">
-        <p class="qr-cta-texto">¿Ya tienes tu pase guardado?<br>Te invitamos a revisar nuestra lista de regalos.</p>
-        <a href="#regalo" class="btn-ver-regalo">Ver lista de regalos</a>
+        <!-- Regalo integrado en la misma tarjeta (según país) -->
+        <div class="qr-regalo" id="qr-regalo">
+          <hr class="qr-divisor">
+          <p class="qr-regalo-titulo">Un último detalle</p>
+          <div id="qr-regalo-datos"></div>
+          <p class="qr-regalo-cierre" id="qr-regalo-cierre"></p>
+        </div>
       </div>
     </div>
   </section>
@@ -1665,8 +1722,9 @@
 <script src="invitados.js"></script>
 <!-- qrcode.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<!-- jsPDF — pase de entrada en PDF vectorial -->
+<!-- jsPDF + html2canvas — pase de entrada en PDF con las fuentes/fondo del sitio -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
   // ================================
   // DATOS DESDE config.js + invitados.js
@@ -1784,6 +1842,49 @@
     bo.style.display = (pais === 'bo' || !pais) ? 'block' : 'none';
   }
 
+  // Contenido condicional por país: los bolivianos (locales) no necesitan info
+  // de viaje ni recomendaciones — solo ven el cuadro de lugares.
+  function aplicarPaisContenido() {
+    const bo = !!(invitadoActual && invitadoActual.pais === 'bo');
+    const llegar = document.getElementById('llegar');
+    const reco   = document.getElementById('recomendaciones');
+    document.querySelectorAll('#llegar .solo-viaje').forEach(el => {
+      el.style.display = bo ? 'none' : '';
+    });
+    if (reco) reco.style.display = bo ? 'none' : '';
+    if (llegar) {
+      llegar.classList.toggle('solo-lugares', bo);
+      const etiqueta = llegar.querySelector('.etiqueta');
+      if (etiqueta) etiqueta.style.display = bo ? 'none' : '';
+    }
+  }
+
+  // Renderiza el regalo (según país) DENTRO de la tarjeta del pase.
+  function renderRegaloEnPase() {
+    const G = CONFIG.regalo;
+    const pais = invitadoActual ? invitadoActual.pais : '';
+    const datos = document.getElementById('qr-regalo-datos');
+    const cierre = document.getElementById('qr-regalo-cierre');
+    if (!datos) return;
+    const verCL = pais === 'cl' || !pais;
+    const verBO = pais === 'bo' || !pais;
+    let html = '';
+    if (verCL) {
+      html += '<div class="qr-regalo-bloque">' +
+        '<p class="qr-regalo-label">Lista de novios' + (G.cl.tienda ? ' · ' + G.cl.tienda : '') + '</p>' +
+        '<p class="qr-regalo-codigo">' + (G.cl.codigo || 'Por confirmar') + '</p>' +
+        '</div>';
+    }
+    if (verBO) {
+      html += '<div class="qr-regalo-bloque">' +
+        '<p class="qr-regalo-label">Datos para transferencia</p>' +
+        '<p class="qr-regalo-banco">' + datosBancarios(G.bo) + '</p>' +
+        '</div>';
+    }
+    datos.innerHTML = html;
+    if (cierre) cierre.textContent = G.cierre || '';
+  }
+
   // ================================
   // ENTRADA
   // ================================
@@ -1845,6 +1946,8 @@
       nombre:   d.nombre,
       personas: Number(d.personas),
       pais:     (d.pais || '').toLowerCase(),
+      acom:     [d.acom_1, d.acom_2, d.acom_3, d.acom_4, d.acom_5]
+                  .map(x => (x == null ? '' : String(x).trim())),
     };
     document.getElementById('campo-codigo').value = codigo;
     document.getElementById('rsvp-pases-banner').style.display = 'block';
@@ -1855,6 +1958,7 @@
     document.getElementById('campo-nombre-wrap').style.display = 'none';
     construirSelector();
     aplicarRegaloPais();
+    aplicarPaisContenido();
   }
 
   function mostrarCampoNombreLibre() {
@@ -1863,6 +1967,7 @@
     if (input) input.required = true;
     construirSelector();
     aplicarRegaloPais();
+    aplicarPaisContenido();
   }
 
   // ================================
@@ -1907,24 +2012,49 @@
     actualizarAsistentesUI();
   }
 
+  // Roster de pases. Con código: fila 1 = titular (prellenado, editable);
+  // filas siguientes = acompañantes (prellenados desde la planilla si existen).
+  // Sin código: el titular es el campo libre #campo-nombre, solo van acompañantes.
   function renderAcomRows() {
-    const total = Number(selectAsisten.value) || 1;
-    const nComp = Math.max(0, total - 1);   // acompañantes = total − titular
+    const total     = Number(selectAsisten.value) || 1;
+    const conCodigo = !!invitadoActual;
+    const acomPref  = (invitadoActual && invitadoActual.acom) || [];
+
+    // preservar lo ya tecleado (por posición)
     const prev = [...acomRows.querySelectorAll('.acom-row')].map(r => ({
-      nombre: r.querySelector('.acom-nombre').value,
-      nino:   r.querySelector('.acom-nino-check').checked,
+      titular: r.dataset.titular === '1',
+      nombre:  r.querySelector('.acom-nombre').value,
+      nino:    !!(r.querySelector('.acom-nino-check') && r.querySelector('.acom-nino-check').checked),
     }));
     acomRows.innerHTML = '';
-    for (let i = 0; i < nComp; i++) {
-      const p = prev[i] || { nombre: '', nino: false };
+
+    let idx = 0;
+    for (let pase = 1; pase <= total; pase++) {
+      const esTitular = pase === 1;
+      if (esTitular && !conCodigo) continue;   // sin código, el titular es el campo libre
+
       const row = document.createElement('div');
       row.className = 'acom-row';
-      row.innerHTML =
-        '<input type="text" class="acom-nombre" placeholder="Nombre del acompañante ' + (i + 1) + '">' +
-        '<label class="acom-nino"><input type="checkbox" class="acom-nino-check"><span>Niño/a</span></label>';
-      row.querySelector('.acom-nombre').value = p.nombre;
-      row.querySelector('.acom-nino-check').checked = p.nino;
+      const p = prev[idx];
+
+      if (esTitular) {
+        row.dataset.titular = '1';
+        row.innerHTML =
+          '<span class="acom-badge">Titular</span>' +
+          '<input type="text" class="acom-nombre" placeholder="Nombre del titular">';
+        row.querySelector('.acom-nombre').value =
+          (p && p.titular ? p.nombre : '') || invitadoActual.nombre || '';
+      } else {
+        const compIdx = pase - 2;              // índice 0-based del acompañante
+        row.innerHTML =
+          '<input type="text" class="acom-nombre" placeholder="Acompañante ' + (compIdx + 1) + '">' +
+          '<label class="acom-nino"><input type="checkbox" class="acom-nino-check"><span>Niño/a</span></label>';
+        const prefill = (p && !p.titular && p.nombre) ? p.nombre : (acomPref[compIdx] || '');
+        row.querySelector('.acom-nombre').value = prefill;
+        if (p && !p.titular) row.querySelector('.acom-nino-check').checked = p.nino;
+      }
       acomRows.appendChild(row);
+      idx++;
     }
   }
 
@@ -1966,7 +2096,7 @@
 
     // Resolver nombre y personas — prioridad: invitadoActual (cargado al abrir la página)
     const codigo = obtenerCodigo();
-    const nombre = invitadoActual
+    let nombre = invitadoActual
       ? invitadoActual.nombre
       : (document.getElementById('campo-nombre')?.value.trim() || '');
 
@@ -1978,18 +2108,26 @@
 
     const asiste = asistencia.value === 'si';
 
-    // Cuántos asisten + nombres de acompañantes (acom_1..acom_5)
+    // Roster: titular (fila con data-titular) + acompañantes (acom_1..acom_5)
     let asisten = 1;
+    let nombreTitular = nombre;
     const acom = ['', '', '', '', ''];
     if (asiste && asistentesWrap.style.display !== 'none') {
       asisten = Number(selectAsisten.value) || 1;
-      [...acomRows.querySelectorAll('.acom-row')].forEach((r, i) => {
-        if (i >= 5) return;
-        const nom  = r.querySelector('.acom-nombre').value.trim();
-        const nino = r.querySelector('.acom-nino-check').checked;
-        acom[i] = nom ? (nino ? nom + ' (niño)' : nom) : '';
+      let ci = 0;
+      [...acomRows.querySelectorAll('.acom-row')].forEach(r => {
+        const nom = r.querySelector('.acom-nombre').value.trim();
+        if (r.dataset.titular === '1') {
+          if (nom) nombreTitular = nom;                 // titular editable
+        } else if (ci < 5) {
+          const chk  = r.querySelector('.acom-nino-check');
+          const nino = chk && chk.checked;
+          acom[ci] = nom ? (nino ? nom + ' (niño)' : nom) : '';
+          ci++;
+        }
       });
     }
+    nombre = nombreTitular;
 
     // Menú y requerimientos especiales
     const requerimientos = ['req-vegetariano','req-vegano','req-celiaco','req-ninguna']
@@ -2003,13 +2141,17 @@
     const endpoint = CONFIG.rsvp.endpoint;
     const usarDemo = !endpoint || endpoint.includes('TU_URL_DE_APPS_SCRIPT_AQUI');
 
+    // Lista de quienes confirmaron (titular + acompañantes con nombre).
+    // Se guarda en la columna RESPUESTA "Confirmados", sin tocar la base Acom_1..5.
+    const confirmados = asiste ? [nombre].concat(acom.filter(Boolean)) : [];
+
     if (!usarDemo) {
       enviarAAppsScript(endpoint, {
         codigo_invitado: codigo,
         nombre:          nombre,
         asistencia:      asistencia.value,
         asisten:         String(asiste ? asisten : 0),
-        acom_1: acom[0], acom_2: acom[1], acom_3: acom[2], acom_4: acom[3], acom_5: acom[4],
+        confirmados:     confirmados.join(' / '),
         requerimientos:  requerimientos,
         mensaje:         document.getElementById('campo-mensaje').value.trim(),
       });
@@ -2017,7 +2159,6 @@
 
     // Mostrar resultado (optimista — no-cors no permite leer la respuesta)
     if (asiste) {
-      const confirmados = [nombre].concat(acom.filter(Boolean));
       mostrarQR(nombre, asisten, confirmados);
     } else {
       btn.textContent    = '¡Gracias por avisarnos!';
@@ -2070,11 +2211,13 @@
     });
 
     configurarCalendario();
+    renderRegaloEnPase();
 
     const sec = document.getElementById('qr-section');
     sec.classList.add('visible');
-    const cta = document.getElementById('qr-cta');
-    if (cta) cta.style.display = 'block';
+    // El regalo ahora vive dentro de la tarjeta del pase → ocultamos la sección suelta
+    const regSection = document.getElementById('regalo');
+    if (regSection) regSection.style.display = 'none';
     setTimeout(() => sec.scrollIntoView({ behavior: 'smooth' }), 100);
 
     const btn = document.getElementById('btn-enviar');
@@ -2090,70 +2233,97 @@
   // ================================
   // DESCARGAR PASE
   // ================================
-  function descargarQR() {
-    const jsPDFCtor = window.jspdf && window.jspdf.jsPDF;
-    if (!jsPDFCtor) { alert('No se pudo cargar el generador de PDF. Revisa tu conexión e intenta de nuevo.'); return; }
+  function escapeHTML(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
 
-    const N = CONFIG.novios;
-    const doc = new jsPDFCtor({ unit: 'mm', format: [105, 148], orientation: 'portrait' });
-
-    const gold  = [201, 185, 122];
-    const negro = [26, 26, 26];
-    const oliva = [74, 92, 58];
-    const crema = [250, 247, 242];
-
-    // Fondo crema
-    doc.setFillColor(crema[0], crema[1], crema[2]);
-    doc.rect(0, 0, 105, 148, 'F');
-
-    // Marco dorado doble
-    doc.setDrawColor(gold[0], gold[1], gold[2]);
-    doc.setLineWidth(0.6); doc.rect(6, 6, 93, 136);
-    doc.setLineWidth(0.2); doc.rect(8, 8, 89, 132);
-
-    // Etiqueta
-    doc.setTextColor(gold[0], gold[1], gold[2]);
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(8);
-    doc.text('P A S E   D E   E N T R A D A', 52.5, 18, { align: 'center' });
-
-    // Novios
-    doc.setTextColor(negro[0], negro[1], negro[2]);
-    doc.setFont('times', 'italic'); doc.setFontSize(22);
-    doc.text(N.ella + ' & ' + N.el, 52.5, 30, { align: 'center' });
-
-    // Fecha
-    doc.setTextColor(oliva[0], oliva[1], oliva[2]);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
-    doc.text(CONFIG.evento.fecha_corta, 52.5, 37, { align: 'center' });
-
-    // QR
+  // Construye la tarjeta del pase como HTML, con las MISMAS fuentes (Cormorant
+  // Garamond + Jost) y el fondo de papel del sitio, para pasarla a PDF tal cual.
+  function construirPasePDF() {
+    const N = CONFIG.novios, L = CONFIG.lugar, E = CONFIG.evento;
+    const serif = "'Cormorant Garamond', Georgia, serif";
+    const sans  = "'Jost', system-ui, sans-serif";
+    // Máximo 4 personas por entrada
+    const nombres = (paseData.confirmados && paseData.confirmados.length ? paseData.confirmados : [paseData.nombre]).slice(0, 4);
     const qrImg = document.querySelector('#qr-canvas img');
-    if (qrImg && qrImg.src) doc.addImage(qrImg.src, 'PNG', 39.5, 43, 26, 26);
+    const qrSrc = qrImg ? qrImg.src : '';
 
-    // Divisor
-    doc.setDrawColor(gold[0], gold[1], gold[2]);
-    doc.setLineWidth(0.2); doc.line(24, 76, 81, 76);
+    function lugar(etiqueta, nombre, linkId) {
+      return '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#a89650;margin-bottom:4px">' + escapeHTML(etiqueta).toUpperCase() + '</div>' +
+             '<div id="' + linkId + '" style="display:inline-block;font-family:' + serif + ';font-size:23px;color:#1a1a1a;border-bottom:1px solid #c9b97a;padding-bottom:1px">' + escapeHTML(nombre) + '</div>';
+    }
 
-    // Invitados confirmados
-    doc.setTextColor(gold[0], gold[1], gold[2]);
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(7);
-    doc.text('INVITADOS CONFIRMADOS', 52.5, 84, { align: 'center' });
+    const namesHTML = nombres.map(function (n) {
+      return '<div style="font-family:' + serif + ';font-size:27px;line-height:1.45;color:#1a1a1a">' + escapeHTML(n) + '</div>';
+    }).join('');
 
-    doc.setTextColor(negro[0], negro[1], negro[2]);
-    doc.setFont('times', 'normal'); doc.setFontSize(12);
-    let y = 92;
-    (paseData.confirmados || [paseData.nombre]).forEach(function (n) {
-      doc.text(String(n), 52.5, y, { align: 'center' });
-      y += 6.5;
-    });
+    const wrap = document.createElement('div');
+    wrap.style.cssText =
+      'position:fixed;left:-9999px;top:0;width:600px;box-sizing:border-box;' +
+      'text-align:center;color:#1a1a1a;background:#FAF7F2;overflow:hidden;';
 
-    // Dress code (pie)
-    doc.setTextColor(oliva[0], oliva[1], oliva[2]);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(7);
-    doc.text('DRESS CODE: ' + CONFIG.evento_info.dress_code.toUpperCase(), 52.5, 134, { align: 'center' });
+    wrap.innerHTML =
+      '<div style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:url(\'assets/img/texture-paper.jpg\');background-size:cover;background-position:center;opacity:0.3"></div>' +
+      '<div style="position:relative;padding:34px">' +
+      '<div style="border:2px solid #c9b97a;padding:8px">' +
+      '<div style="border:1px solid rgba(201,185,122,0.55);padding:34px 30px">' +
+        '<div style="font-family:' + sans + ';font-size:13px;letter-spacing:7px;color:#c9b97a">PASE DE ENTRADA</div>' +
+        '<div style="font-family:' + serif + ';font-style:italic;font-size:48px;line-height:1.1;color:#1a1a1a;margin:16px 0 8px">' + escapeHTML(N.ella) + ' &amp; ' + escapeHTML(N.el) + '</div>' +
+        '<div style="font-family:' + sans + ';font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#4a5c3a">' + escapeHTML(E.fecha_corta) + '</div>' +
+        (qrSrc ? '<div style="margin:24px 0"><img src="' + qrSrc + '" style="width:160px;height:160px;display:inline-block"></div>' : '<div style="height:24px"></div>') +
+        '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.5);margin:6px 36px 20px">' +
+        '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:5px;color:#c9b97a;margin-bottom:12px">INVITADOS CONFIRMADOS</div>' +
+        namesHTML +
+        '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.5);margin:22px 36px 20px">' +
+        lugar('Ceremonia · ' + (L.iglesia.hora || ''), L.iglesia.nombre, 'pdf-link-iglesia') +
+        '<div style="height:18px"></div>' +
+        lugar('Recepción y fiesta · ' + (L.portal.hora || ''), L.portal.nombre, 'pdf-link-portal') +
+        '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#4a5c3a;margin-top:26px">Dress code: ' + escapeHTML(CONFIG.evento_info.dress_code) + '</div>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
+    return wrap;
+  }
 
-    const slug = (paseData.nombre || 'invitado').toLowerCase().replace(/\s+/g, '-');
-    doc.save('pase-boda-' + slug + '.pdf');
+  async function descargarQR() {
+    const jsPDFCtor = window.jspdf && window.jspdf.jsPDF;
+    if (!jsPDFCtor || typeof html2canvas === 'undefined') {
+      alert('No se pudo cargar el generador de PDF. Revisa tu conexión e intenta de nuevo.');
+      return;
+    }
+    try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (_) {}
+
+    const node = construirPasePDF();
+    document.body.appendChild(node);
+    await new Promise(function (r) { setTimeout(r, 180); }); // dar tiempo al QR y a la textura
+
+    try {
+      const canvas = await html2canvas(node, { scale: 3, useCORS: true, backgroundColor: null, logging: false });
+      const nr  = node.getBoundingClientRect();
+      const wmm = 92;
+      const hmm = wmm * (nr.height / nr.width);
+      const doc = new jsPDFCtor({ unit: 'mm', format: [wmm, hmm], orientation: 'portrait' });
+      doc.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, wmm, hmm);
+
+      // Links clicables sobre cada lugar
+      const sx = wmm / nr.width, sy = hmm / nr.height;
+      [['pdf-link-iglesia', CONFIG.lugar.iglesia.maps_url],
+       ['pdf-link-portal',  CONFIG.lugar.portal.maps_url]].forEach(function (par) {
+        const el = node.querySelector('#' + par[0]);
+        if (!el || !par[1]) return;
+        const r = el.getBoundingClientRect();
+        doc.link((r.left - nr.left) * sx, (r.top - nr.top) * sy, r.width * sx, r.height * sy, { url: par[1] });
+      });
+
+      const slug = (paseData.nombre || 'invitado').toLowerCase().replace(/\s+/g, '-');
+      doc.save('pase-boda-' + slug + '.pdf');
+    } catch (err) {
+      console.error('descargarQR error:', err);
+      alert('No se pudo generar el PDF. Intenta de nuevo.');
+    } finally {
+      if (node.parentNode) node.parentNode.removeChild(node);
+    }
   }
 
   // ================================
