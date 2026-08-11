@@ -850,8 +850,8 @@
     .acom-nino input[type="checkbox"] {
       -webkit-appearance: none;
       appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 13px;
+      height: 13px;
       border: 1px solid rgba(26,26,26,0.28);
       background: transparent;
       cursor: pointer;
@@ -866,16 +866,49 @@
     .acom-nino input[type="checkbox"]:checked::after {
       content: '';
       position: absolute;
-      left: 4px;
-      top: 1px;
-      width: 4px;
-      height: 8px;
+      left: 3px;
+      top: 0px;
+      width: 3px;
+      height: 7px;
       border: 1.5px solid var(--negro);
       border-top: none;
       border-left: none;
       transform: rotate(45deg);
     }
-    .acom-nino span { font-size: 0.72rem; font-weight: 300; }
+    .acom-nino { gap: 0.3rem; }
+    .acom-nino span { font-size: 0.58rem; font-weight: 300; color: #999; }
+    /* Casilla "¿Asiste?" del roster por persona */
+    .acom-asiste {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .acom-asiste input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .acom-asiste-box {
+      width: 20px;
+      height: 20px;
+      border: 1px solid rgba(26,26,26,0.3);
+      border-radius: 4px;
+      display: inline-block;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .acom-asiste input:checked + .acom-asiste-box {
+      background: var(--oliva);
+      border-color: var(--oliva);
+    }
+    .acom-asiste input:checked + .acom-asiste-box::after {
+      content: '';
+      position: absolute;
+      left: 6px; top: 2px;
+      width: 5px; height: 10px;
+      border: 2px solid #fff;
+      border-top: none; border-left: none;
+      transform: rotate(45deg);
+    }
+    /* Atenúa la fila de quien no asiste */
+    .acom-row:has(.acom-asiste-check:not(:checked)) .acom-nombre { opacity: 0.4; }
     .campo input[readonly] {
       color: #888;
       cursor: default;
@@ -1021,7 +1054,8 @@
     }
     .qr-evento {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
+      font-style: italic;
+      font-size: 1.9rem;
       color: var(--negro);
     }
     .qr-fecha-evento {
@@ -1057,6 +1091,13 @@
       justify-content: center;
       flex-wrap: wrap;
       margin-top: 1.2rem;
+    }
+    .qr-links {
+      display: flex;
+      gap: 0.55rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 0.2rem 0 0.4rem;
     }
     .btn-cal {
       padding: 0.55rem 1.2rem;
@@ -1594,11 +1635,13 @@
             </div>
           </div>
 
-          <!-- Cuántos asisten + nombre de cada pase (visible al confirmar "Sí") -->
+          <!-- ¿Quiénes asisten? (visible al confirmar "Sí") -->
           <div class="campo" id="asistentes-wrap" style="display:none">
-            <label for="select-asisten">¿Cuántas personas asistirán en total?</label>
-            <select id="select-asisten"></select>
-            <p class="campo-intro">Confirma el nombre de cada persona (puedes corregir los datos):</p>
+            <label>¿Quiénes asistirán?</label>
+            <p class="campo-intro" id="asistentes-intro"></p>
+            <div id="cuantos-wrap" style="display:none;margin-bottom:0.6rem">
+              <select id="select-asisten"></select>
+            </div>
             <div id="acom-rows" class="acom-rows"></div>
           </div>
 
@@ -1639,30 +1682,33 @@
   <!-- QR / PASE VIP -->
   <section id="qr-section">
     <div class="wrapper">
-      <p class="etiqueta">Tu acceso</p>
-      <h2 class="titulo">Pase de <em>Entrada</em></h2>
+      <h2 class="titulo">Ya estás <em>confirmado/a</em></h2>
       <div class="ornamento">
         <div class="ornamento-linea"></div>
         <div class="ornamento-rombo"></div>
         <div class="ornamento-linea"></div>
       </div>
-      <p class="qr-texto">Guarda este pase en tu teléfono. Lo necesitarás el día de la boda.</p>
 
       <div class="qr-pase" id="qr-pase">
-        <p class="qr-nombre" id="qr-nombre"></p>
-        <p class="qr-info" id="qr-info"></p>
-        <div class="qr-lista" id="qr-lista"></div>
-        <div class="qr-codigo">
-          <div id="qr-canvas"></div>
-        </div>
-        <hr class="qr-divisor">
         <p class="qr-evento" id="qr-evento"></p>
         <p class="qr-fecha-evento" id="qr-fecha-evento"></p>
-        <button class="btn-descargar" onclick="descargarQR()">Descargar pase de entrada</button>
-        <div class="cal-botones">
+
+        <hr class="qr-divisor">
+        <div class="qr-lista" id="qr-lista"></div>
+        <p class="qr-info" id="qr-info"></p>
+
+        <hr class="qr-divisor">
+        <div class="qr-links">
+          <a id="qr-link-iglesia" href="#" target="_blank" rel="noopener" class="btn-cal">Iglesia Santa Teresa</a>
+          <a id="qr-link-portal" href="#" target="_blank" rel="noopener" class="btn-cal">El Portal</a>
           <a id="btn-gcal" href="#" target="_blank" class="btn-cal">Google Calendar</a>
           <a id="btn-ical" href="#" class="btn-cal" download="boda-ivanna-mario.ics">Apple / iCal</a>
         </div>
+
+        <div class="qr-codigo">
+          <div id="qr-canvas"></div>
+        </div>
+        <button class="btn-descargar" onclick="descargarQR()">Descargar pase (PDF)</button>
 
         <!-- Regalo integrado en la misma tarjeta (según país) -->
         <div class="qr-regalo" id="qr-regalo">
@@ -1773,6 +1819,10 @@
     setAttr('lugar-iglesia-maps', 'href', L.iglesia.maps_url);
     setText('lugar-portal-nombre', L.portal.nombre + (L.portal.nombre2 ? ' · ' + L.portal.nombre2 : ''));
     setAttr('lugar-portal-maps', 'href', L.portal.maps_url);
+
+    // Links de la tarjeta de confirmación
+    setAttr('qr-link-iglesia', 'href', L.iglesia.maps_url);
+    setAttr('qr-link-portal',  'href', L.portal.maps_url);
 
     // RSVP
     setText('rsvp-deadline', E.fecha_corta.split('·')[0].trim() !== '' ? R.deadline : R.deadline);
@@ -1994,73 +2044,102 @@
   const selectAsisten  = document.getElementById('select-asisten');
   const acomRows       = document.getElementById('acom-rows');
 
-  function maxAsistentes() {
-    return invitadoActual ? Number(invitadoActual.personas) : 6;
+  // Personas invitadas (con código): la pareja/titulares salen del Nombre
+  // separado por "&"; los acompañantes con nombre salen de Acom_1..5.
+  function personasInvitadas() {
+    if (!invitadoActual) return [];
+    const tits = String(invitadoActual.nombre || '').split('&')
+      .map(s => s.trim()).filter(Boolean)
+      .map(n => ({ nombre: n, acom: false }));
+    const acs = (invitadoActual.acom || [])
+      .map(s => String(s == null ? '' : s).trim())
+      .filter(s => s && !/^\d+$/.test(s))          // ignora números sueltos
+      .map(n => ({ nombre: n, acom: true }));
+    return tits.concat(acs);
+  }
+
+  // Total de pases: máximo entre invitados con nombre y el cupo "Personas".
+  function totalPases() {
+    if (!invitadoActual) return Number(selectAsisten.value) || 1;
+    const base = personasInvitadas();
+    return Math.max(base.length, Number(invitadoActual.personas) || base.length || 1);
   }
 
   function construirSelector() {
-    const max = maxAsistentes();
-    selectAsisten.innerHTML = '';
-    for (let i = 1; i <= max; i++) {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = i + (i === 1 ? ' persona' : ' personas');
-      selectAsisten.appendChild(opt);
+    const conCodigo = !!invitadoActual;
+    document.getElementById('cuantos-wrap').style.display = conCodigo ? 'none' : 'block';
+    if (!conCodigo) {
+      selectAsisten.innerHTML = '';
+      for (let i = 1; i <= 6; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = i + (i === 1 ? ' persona' : ' personas');
+        selectAsisten.appendChild(opt);
+      }
+      selectAsisten.value = 1;
     }
-    selectAsisten.value = max;   // por defecto asume el cupo completo
+    const intro = document.getElementById('asistentes-intro');
+    if (intro) intro.textContent = conCodigo
+      ? 'Marca y completa el nombre de quienes asistirán:'
+      : 'Indícanos cuántas personas asistirán y sus nombres:';
     renderAcomRows();
     actualizarAsistentesUI();
   }
 
-  // Roster de pases. Con código: fila 1 = titular (prellenado, editable);
-  // filas siguientes = acompañantes (prellenados desde la planilla si existen).
-  // Sin código: el titular es el campo libre #campo-nombre, solo van acompañantes.
+  // Con código: una fila por persona invitada con casilla "¿Asiste?" (así
+  // confirman si van ambos, uno solo o ninguno). Sin código: acompañantes
+  // según el selector (el titular es el campo libre).
   function renderAcomRows() {
-    const total     = Number(selectAsisten.value) || 1;
     const conCodigo = !!invitadoActual;
-    const acomPref  = (invitadoActual && invitadoActual.acom) || [];
-
-    // preservar lo ya tecleado (por posición)
     const prev = [...acomRows.querySelectorAll('.acom-row')].map(r => ({
-      titular: r.dataset.titular === '1',
-      nombre:  r.querySelector('.acom-nombre').value,
-      nino:    !!(r.querySelector('.acom-nino-check') && r.querySelector('.acom-nino-check').checked),
+      nombre: r.querySelector('.acom-nombre').value,
+      asiste: !r.querySelector('.acom-asiste-check') || r.querySelector('.acom-asiste-check').checked,
+      nino:   !!(r.querySelector('.acom-nino-check') && r.querySelector('.acom-nino-check').checked),
     }));
     acomRows.innerHTML = '';
 
-    let idx = 0;
-    for (let pase = 1; pase <= total; pase++) {
-      const esTitular = pase === 1;
-      if (esTitular && !conCodigo) continue;   // sin código, el titular es el campo libre
-
-      const row = document.createElement('div');
-      row.className = 'acom-row';
-      const p = prev[idx];
-
-      if (esTitular) {
-        row.dataset.titular = '1';
+    if (conCodigo) {
+      const base = personasInvitadas();
+      const total = totalPases();
+      for (let i = 0; i < total; i++) {
+        const info = base[i];                        // undefined en filas extra
+        const p = prev[i];
+        const nombre = p ? p.nombre : (info ? info.nombre : '');
+        const asiste = p ? p.asiste : !!info;        // invitados base: sí; extras: no
+        const permiteNino = info ? info.acom : true;
+        const row = document.createElement('div');
+        row.className = 'acom-row';
         row.innerHTML =
-          '<span class="acom-badge">Titular</span>' +
-          '<input type="text" class="acom-nombre" placeholder="Nombre del titular">';
-        row.querySelector('.acom-nombre').value =
-          (p && p.titular ? p.nombre : '') || invitadoActual.nombre || '';
-      } else {
-        const compIdx = pase - 2;              // índice 0-based del acompañante
-        row.innerHTML =
-          '<input type="text" class="acom-nombre" placeholder="Acompañante ' + (compIdx + 1) + '">' +
-          '<label class="acom-nino"><input type="checkbox" class="acom-nino-check"><span>Niño/a</span></label>';
-        const prefill = (p && !p.titular && p.nombre) ? p.nombre : (acomPref[compIdx] || '');
-        row.querySelector('.acom-nombre').value = prefill;
-        if (p && !p.titular) row.querySelector('.acom-nino-check').checked = p.nino;
+          '<label class="acom-asiste" title="¿Asiste?"><input type="checkbox" class="acom-asiste-check"' + (asiste ? ' checked' : '') + '><span class="acom-asiste-box"></span></label>' +
+          '<input type="text" class="acom-nombre" placeholder="' + (info ? 'Nombre' : 'Invitado adicional') + '">' +
+          (permiteNino ? '<label class="acom-nino"><input type="checkbox" class="acom-nino-check"><span>Niño/a</span></label>' : '');
+        row.querySelector('.acom-nombre').value = nombre;
+        const nc = row.querySelector('.acom-nino-check');
+        if (p && nc) nc.checked = p.nino;
+        acomRows.appendChild(row);
       }
-      acomRows.appendChild(row);
-      idx++;
+    } else {
+      const total = Number(selectAsisten.value) || 1;
+      for (let i = 1; i < total; i++) {
+        const p = prev[i - 1];
+        const row = document.createElement('div');
+        row.className = 'acom-row';
+        row.innerHTML =
+          '<input type="text" class="acom-nombre" placeholder="Acompañante ' + i + '">' +
+          '<label class="acom-nino"><input type="checkbox" class="acom-nino-check"><span>Niño/a</span></label>';
+        row.querySelector('.acom-nombre').value = p ? p.nombre : '';
+        if (p) row.querySelector('.acom-nino-check').checked = p.nino;
+        acomRows.appendChild(row);
+      }
     }
   }
 
   function actualizarAsistentesUI() {
     const asiste = document.querySelector('input[name="asistencia"]:checked');
-    const mostrar = !!asiste && asiste.value === 'si' && (maxAsistentes() > 1 || !invitadoActual);
+    let mostrar = false;
+    if (asiste && asiste.value === 'si') {
+      mostrar = invitadoActual ? (totalPases() > 1) : true;
+    }
     asistentesWrap.style.display = mostrar ? 'flex' : 'none';
   }
 
@@ -2108,26 +2187,29 @@
 
     const asiste = asistencia.value === 'si';
 
-    // Roster: titular (fila con data-titular) + acompañantes (acom_1..acom_5)
-    let asisten = 1;
-    let nombreTitular = nombre;
-    const acom = ['', '', '', '', ''];
-    if (asiste && asistentesWrap.style.display !== 'none') {
-      asisten = Number(selectAsisten.value) || 1;
-      let ci = 0;
-      [...acomRows.querySelectorAll('.acom-row')].forEach(r => {
-        const nom = r.querySelector('.acom-nombre').value.trim();
-        if (r.dataset.titular === '1') {
-          if (nom) nombreTitular = nom;                 // titular editable
-        } else if (ci < 5) {
-          const chk  = r.querySelector('.acom-nino-check');
-          const nino = chk && chk.checked;
-          acom[ci] = nom ? (nino ? nom + ' (niño)' : nom) : '';
-          ci++;
-        }
-      });
+    // ¿Quiénes asisten? — nombres marcados como "Asiste" (con nombre).
+    // Se guardan en la columna RESPUESTA "Confirmados", sin tocar la base Acom_1..5.
+    let confirmados = [];
+    if (asiste) {
+      if (asistentesWrap.style.display !== 'none') {
+        [...acomRows.querySelectorAll('.acom-row')].forEach(r => {
+          const nom  = r.querySelector('.acom-nombre').value.trim();
+          const chkA = r.querySelector('.acom-asiste-check');
+          const viene = chkA ? chkA.checked : true;   // filas sin casilla (sin código) → vienen si tienen nombre
+          if (!nom || !viene) return;
+          const nino = r.querySelector('.acom-nino-check') && r.querySelector('.acom-nino-check').checked;
+          confirmados.push(nino ? nom + ' (niño)' : nom);
+        });
+        if (!invitadoActual && nombre) confirmados.unshift(nombre);   // sin código, el titular también asiste
+      } else {
+        confirmados = [nombre];                        // invitado de 1 sola persona
+      }
+      if (confirmados.length === 0) {
+        alert('Marca al menos una persona que asistirá.');
+        return;
+      }
     }
-    nombre = nombreTitular;
+    const asisten = confirmados.length;
 
     // Menú y requerimientos especiales
     const requerimientos = ['req-vegetariano','req-vegano','req-celiaco','req-ninguna']
@@ -2141,16 +2223,12 @@
     const endpoint = CONFIG.rsvp.endpoint;
     const usarDemo = !endpoint || endpoint.includes('TU_URL_DE_APPS_SCRIPT_AQUI');
 
-    // Lista de quienes confirmaron (titular + acompañantes con nombre).
-    // Se guarda en la columna RESPUESTA "Confirmados", sin tocar la base Acom_1..5.
-    const confirmados = asiste ? [nombre].concat(acom.filter(Boolean)) : [];
-
     if (!usarDemo) {
       enviarAAppsScript(endpoint, {
         codigo_invitado: codigo,
         nombre:          nombre,
         asistencia:      asistencia.value,
-        asisten:         String(asiste ? asisten : 0),
+        asisten:         String(asisten),
         confirmados:     confirmados.join(' / '),
         requerimientos:  requerimientos,
         mensaje:         document.getElementById('campo-mensaje').value.trim(),
@@ -2186,16 +2264,14 @@
       c: codigo
     });
 
-    document.getElementById('qr-nombre').textContent = nombre;
     document.getElementById('qr-info').textContent =
-      personas + (personas === 1 ? ' persona confirmada' : ' personas confirmadas') + ' · Dress code formal';
+      'Dress code · ' + CONFIG.evento_info.dress_code;
 
-    // Invitados confirmados en el pase
+    // Invitados confirmados (siempre)
     const lista = document.getElementById('qr-lista');
-    lista.innerHTML = confirmados.length > 1
-      ? '<p class="qr-lista-label">Invitados confirmados</p>' +
-        confirmados.map(n => '<div class="qr-lista-nombre">' + n + '</div>').join('')
-      : '';
+    lista.innerHTML =
+      '<p class="qr-lista-label">Invitados confirmados</p>' +
+      confirmados.map(n => '<div class="qr-lista-nombre">' + n + '</div>').join('');
 
     // Limpiar contenedor
     const contenedor = document.getElementById('qr-canvas');
