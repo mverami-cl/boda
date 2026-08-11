@@ -45,6 +45,7 @@
   // Mapa { encabezadoNormalizado : índiceDeColumna(0-based) }.
   // Si hay encabezados repetidos (p. ej. dos "Pais"), gana la PRIMERA ocurrencia.
   function mapaColumnas_(hoja) {
+    if (hoja.getLastColumn() === 0) return {};   // hoja vacía
     var headers = hoja.getRange(1, 1, 1, hoja.getLastColumn()).getValues()[0];
     var mapa = {};
     headers.forEach(function (h, i) {
@@ -162,8 +163,9 @@
   function registrarLog_(codigo, titular, confArr, d) {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var log = ss.getSheetByName(LOG_HOJA);
-    if (!log) {
-      log = ss.insertSheet(LOG_HOJA);
+    if (!log) log = ss.insertSheet(LOG_HOJA);
+    // Asegurar encabezados (cubre hoja recién creada O existente pero vacía)
+    if (log.getLastRow() === 0 || log.getLastColumn() === 0) {
       log.appendRow(['Fecha', 'Codigo', 'Titular', 'Persona', 'Niño', 'Asistencia', 'Requerimientos', 'Mensaje']);
     }
     var mapaLog = mapaColumnas_(log);
