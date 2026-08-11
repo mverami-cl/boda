@@ -1026,7 +1026,7 @@
       color: var(--oliva);
       margin-bottom: 1.2rem;
     }
-    .qr-lista { margin-bottom: 1.6rem; }
+    .qr-lista { margin: 1.5rem 0 1.1rem; }
     .qr-lista-label {
       font-family: 'Jost', sans-serif;
       font-size: 0.52rem;
@@ -1188,6 +1188,84 @@
       background: var(--dorado);
       border-color: var(--dorado);
       color: var(--negro);
+    }
+
+    /* ================================
+       MODAL RECORDATORIO DE REGALO
+    ================================ */
+    .regalo-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(26,26,26,0.55);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .regalo-modal-card {
+      background: var(--crema);
+      border: 1px solid var(--dorado);
+      max-width: 420px;
+      width: 100%;
+      padding: 2.4rem 2rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(26,26,26,0.25);
+    }
+    .regalo-modal-titulo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--negro);
+      margin-bottom: 0.6rem;
+    }
+    .regalo-modal-texto {
+      font-size: 0.82rem;
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 1.3rem;
+    }
+    .regalo-modal-bloque { margin-bottom: 1rem; }
+    .regalo-modal-cierre {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--dorado);
+      margin: 0.6rem 0 1.4rem;
+    }
+    .regalo-modal-botones {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .regalo-modal-btn {
+      padding: 0.8rem 1.6rem;
+      background: var(--fondo-oscuro);
+      border: 1px solid var(--fondo-oscuro);
+      color: var(--crema);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .regalo-modal-btn:hover {
+      background: var(--dorado);
+      border-color: var(--dorado);
+      color: var(--fondo-oscuro);
+    }
+    .regalo-modal-btn.secundario {
+      background: transparent;
+      color: var(--negro);
+      border-color: rgba(26,26,26,0.2);
+    }
+    .regalo-modal-btn.secundario:hover {
+      background: transparent;
+      border-color: var(--dorado);
+      color: var(--dorado);
     }
 
     /* ================================
@@ -1693,7 +1771,6 @@
         <p class="qr-evento" id="qr-evento"></p>
         <p class="qr-fecha-evento" id="qr-fecha-evento"></p>
 
-        <hr class="qr-divisor">
         <div class="qr-lista" id="qr-lista"></div>
         <p class="qr-info" id="qr-info"></p>
 
@@ -1705,18 +1782,13 @@
           <a id="btn-ical" href="#" class="btn-cal" download="boda-ivanna-mario.ics">Apple / iCal</a>
         </div>
 
-        <div class="qr-codigo">
-          <div id="qr-canvas"></div>
-        </div>
-        <button class="btn-descargar" onclick="descargarQR()">Descargar pase (PDF)</button>
+        <button class="btn-descargar" onclick="recordarYDescargar()">Descargar pase (PDF)</button>
+      </div>
 
-        <!-- Regalo integrado en la misma tarjeta (según país) -->
-        <div class="qr-regalo" id="qr-regalo">
-          <hr class="qr-divisor">
-          <p class="qr-regalo-titulo">Un último detalle</p>
-          <div id="qr-regalo-datos"></div>
-          <p class="qr-regalo-cierre" id="qr-regalo-cierre"></p>
-        </div>
+      <!-- Invitación a ver el regalo -->
+      <div class="qr-cta">
+        <p class="qr-cta-texto">Nos encantaría contar contigo. Si deseas acompañarnos con un regalo:</p>
+        <a href="#regalo" class="btn-ver-regalo">Ver nuestro regalo</a>
       </div>
     </div>
   </section>
@@ -1762,12 +1834,24 @@
 
 </div><!-- /main -->
 
+<!-- Modal: recordatorio de regalo antes de descargar el pase -->
+<div class="regalo-modal" id="regalo-modal" onclick="if(event.target===this)cerrarRegaloModal()">
+  <div class="regalo-modal-card">
+    <p class="regalo-modal-titulo">Antes de descargar tu pase…</p>
+    <p class="regalo-modal-texto">Tu presencia es nuestro mejor regalo. Y si además quieres tener un detalle con nosotros:</p>
+    <div id="regalo-modal-datos"></div>
+    <p class="regalo-modal-cierre">¡Gracias por todo su cariño!</p>
+    <div class="regalo-modal-botones">
+      <button class="regalo-modal-btn secundario" onclick="cerrarRegaloModal()">Cerrar</button>
+      <button class="regalo-modal-btn" onclick="cerrarRegaloModal(); descargarQR()">Descargar pase</button>
+    </div>
+  </div>
+</div>
+
 <!-- Configuración editable -->
 <script src="config.js"></script>
 <!-- Lista de invitados (privada, no en git) -->
 <script src="invitados.js"></script>
-<!-- qrcode.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <!-- jsPDF + html2canvas — pase de entrada en PDF con las fuentes/fondo del sitio -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -1909,30 +1993,37 @@
     }
   }
 
-  // Renderiza el regalo (según país) DENTRO de la tarjeta del pase.
-  function renderRegaloEnPase() {
+  // Rellena el modal recordatorio con el regalo según país.
+  function renderRegaloModal() {
     const G = CONFIG.regalo;
     const pais = invitadoActual ? invitadoActual.pais : '';
-    const datos = document.getElementById('qr-regalo-datos');
-    const cierre = document.getElementById('qr-regalo-cierre');
+    const datos = document.getElementById('regalo-modal-datos');
     if (!datos) return;
     const verCL = pais === 'cl' || !pais;
     const verBO = pais === 'bo' || !pais;
     let html = '';
     if (verCL) {
-      html += '<div class="qr-regalo-bloque">' +
+      html += '<div class="regalo-modal-bloque">' +
         '<p class="qr-regalo-label">Lista de novios' + (G.cl.tienda ? ' · ' + G.cl.tienda : '') + '</p>' +
         '<p class="qr-regalo-codigo">' + (G.cl.codigo || 'Por confirmar') + '</p>' +
         '</div>';
     }
     if (verBO) {
-      html += '<div class="qr-regalo-bloque">' +
+      html += '<div class="regalo-modal-bloque">' +
         '<p class="qr-regalo-label">Datos para transferencia</p>' +
         '<p class="qr-regalo-banco">' + datosBancarios(G.bo) + '</p>' +
         '</div>';
     }
     datos.innerHTML = html;
-    if (cierre) cierre.textContent = G.cierre || '';
+  }
+
+  // El botón "Descargar pase" primero recuerda el regalo, y desde el modal se descarga.
+  function recordarYDescargar() {
+    renderRegaloModal();
+    document.getElementById('regalo-modal').style.display = 'flex';
+  }
+  function cerrarRegaloModal() {
+    document.getElementById('regalo-modal').style.display = 'none';
   }
 
   // ================================
@@ -2246,23 +2337,13 @@
   });
 
   // ================================
-  // GENERACIÓN QR
+  // PASE DE CONFIRMACIÓN
   // ================================
-  let qrObj = null;
   let paseData = { nombre: '', personas: 1, confirmados: [] };
 
   function mostrarQR(nombre, personas, confirmados) {
     confirmados = (confirmados && confirmados.length) ? confirmados : [nombre];
     paseData = { nombre: nombre, personas: personas, confirmados: confirmados };
-
-    const codigo  = obtenerCodigo() || hashCorto(nombre);
-    const payload = JSON.stringify({
-      n: nombre,
-      p: personas,
-      e: 'Boda I&M',
-      f: '2026-10-23',
-      c: codigo
-    });
 
     document.getElementById('qr-info').textContent =
       'Dress code · ' + CONFIG.evento_info.dress_code;
@@ -2273,37 +2354,14 @@
       '<p class="qr-lista-label">Invitados confirmados</p>' +
       confirmados.map(n => '<div class="qr-lista-nombre">' + n + '</div>').join('');
 
-    // Limpiar contenedor
-    const contenedor = document.getElementById('qr-canvas');
-    contenedor.innerHTML = '';
-
-    qrObj = new QRCode(contenedor, {
-      text: payload,
-      width: 180,
-      height: 180,
-      colorDark:  '#1a1a1a',
-      colorLight: '#FAF7F2',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-
     configurarCalendario();
-    renderRegaloEnPase();
 
     const sec = document.getElementById('qr-section');
     sec.classList.add('visible');
-    // El regalo ahora vive dentro de la tarjeta del pase → ocultamos la sección suelta
-    const regSection = document.getElementById('regalo');
-    if (regSection) regSection.style.display = 'none';
     setTimeout(() => sec.scrollIntoView({ behavior: 'smooth' }), 100);
 
     const btn = document.getElementById('btn-enviar');
     btn.textContent = 'Confirmado ✓';
-  }
-
-  function hashCorto(str) {
-    let h = 0;
-    for (let i = 0; i < str.length; i++) { h = (Math.imul(31, h) + str.charCodeAt(i)) | 0; }
-    return Math.abs(h).toString(36).toUpperCase().slice(0, 6);
   }
 
   // ================================
@@ -2322,8 +2380,6 @@
     const sans  = "'Jost', system-ui, sans-serif";
     // Máximo 4 personas por entrada
     const nombres = (paseData.confirmados && paseData.confirmados.length ? paseData.confirmados : [paseData.nombre]).slice(0, 4);
-    const qrImg = document.querySelector('#qr-canvas img');
-    const qrSrc = qrImg ? qrImg.src : '';
 
     function lugar(etiqueta, nombre, linkId) {
       return '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#a89650;margin-bottom:4px">' + escapeHTML(etiqueta).toUpperCase() + '</div>' +
@@ -2347,8 +2403,7 @@
         '<div style="font-family:' + sans + ';font-size:13px;letter-spacing:7px;color:#c9b97a">PASE DE ENTRADA</div>' +
         '<div style="font-family:' + serif + ';font-style:italic;font-size:48px;line-height:1.1;color:#1a1a1a;margin:16px 0 8px">' + escapeHTML(N.ella) + ' &amp; ' + escapeHTML(N.el) + '</div>' +
         '<div style="font-family:' + sans + ';font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#4a5c3a">' + escapeHTML(E.fecha_corta) + '</div>' +
-        (qrSrc ? '<div style="margin:24px 0"><img src="' + qrSrc + '" style="width:160px;height:160px;display:inline-block"></div>' : '<div style="height:24px"></div>') +
-        '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.5);margin:6px 36px 20px">' +
+        '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.5);margin:20px 36px 20px">' +
         '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:5px;color:#c9b97a;margin-bottom:12px">INVITADOS CONFIRMADOS</div>' +
         namesHTML +
         '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.5);margin:22px 36px 20px">' +
