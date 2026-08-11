@@ -34,7 +34,7 @@ const CONFIG = {
     ciudad: 'Cochabamba, Bolivia',
     iglesia: {
       nombre: 'Iglesia Santa Teresa',
-      hora: '16:15 h',
+      hora: '16:00 h',
       maps_url: 'https://maps.app.goo.gl/JU3vovUHsKKZ5CgL6',
     },
     portal: {
@@ -49,10 +49,7 @@ const CONFIG = {
   //  DRESS CODE / FORMATO
   // ----------------------------------------------------------
   evento_info: {
-    dress_code: 'Formal',
-    ninos: 'Solo adultos',
-    formato: 'Boda de destino',
-    origen: 'Desde Chile',
+    dress_code: 'Formal'
   },
 
   // ----------------------------------------------------------
