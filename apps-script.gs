@@ -10,9 +10,14 @@
   //    Codigo | Nombre | Pais | Personas | Acom_1 | Acom_2 | Acom_3 | Acom_4 | Acom_5
   //      · Acom_1..5 = acompañantes INVITADOS → se usan para prellenar el formulario.
   //
-  //   RESPUESTA (la llena el RSVP automáticamente):
-  //    Asistencia | Asisten | Confirmados | Requerimientos | Mensaje | Fecha_respuesta
-  //      · Confirmados = lista de quienes confirmaron (titular + acompañantes).
+  //   RESPUESTA en "Invitados" (la llena el RSVP; resumen por invitación):
+  //    Asistencia | Asisten | Conf_1 | Conf_2 | Conf_3 | Conf_4 | Conf_5 |
+  //    Requerimientos | Mensaje | Fecha_respuesta
+  //      · Conf_1..5 = cada persona confirmada en su columna. (Opcional: "Confirmados" = lista unida.)
+  //
+  //  LOG en la pestaña "RSVPs" (se crea sola si no existe): UNA FILA POR PERSONA
+  //  confirmada en cada envío → Fecha | Codigo | Titular | Persona | Niño | Asistencia |
+  //  Requerimientos | Mensaje. Ideal para extraer el listado de quién respondió/confirmó.
   //
   //  Deploy: Implementar → Nueva implementación → Aplicación web
   //    · Ejecutar como: Yo
@@ -23,6 +28,7 @@
   // ============================================================
 
   var HOJA = 'Invitados';
+  var LOG_HOJA = 'RSVPs';   // log: una fila por persona confirmada (se crea si no existe)
 
   function getHoja_() {
     return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA);
@@ -108,19 +114,29 @@
       }
     }
 
-    // RESPUESTA: NO se tocan las columnas base (Acom_1..5). Los confirmados van
-    // a la columna "Confirmados". La base queda intacta para futuros prellenados.
+    // Confirmados como array (el front envía "A / B / C (niño)")
+    var confArr = String(d.confirmados || '').split(' / ')
+      .map(function (s) { return s.trim(); })
+      .filter(Boolean);
+
+    // Titular (Nombre base) para el log
+    var titular = (fila > 0 && mapa['nombre'] != null)
+      ? datos[fila - 1][mapa['nombre']]
+      : (d.nombre || '');
+
+    // RESPUESTA en "Invitados": resumen + cada confirmado en su columna Conf_1..5.
+    // NO se tocan las columnas base (Acom_1..5).
     var valores = {
       'asistencia':      d.asistencia || '',
       'asisten':         d.asisten || '',
-      'confirmados':     d.confirmados || '',
+      'confirmados':     d.confirmados || '',   // opcional: columna única unida
       'requerimientos':  d.requerimientos || '',
       'mensaje':         d.mensaje || '',
       'fecha_respuesta': new Date()
     };
+    for (var i = 0; i < 5; i++) valores['conf_' + (i + 1)] = confArr[i] || '';
 
     if (fila > 0) {
-      // Actualiza SOLO las columnas que existan en la planilla
       Object.keys(valores).forEach(function (k) {
         if (mapa[k] != null) hoja.getRange(fila, mapa[k] + 1).setValue(valores[k]);
       });
@@ -136,5 +152,48 @@
       hoja.appendRow(nueva);
     }
 
+    // LOG en "RSVPs": una fila por persona confirmada (o una fila si "No")
+    registrarLog_(codigo, titular, confArr, d);
+
     return json_({ ok: true });
+  }
+
+  // Agrega al log "RSVPs" una fila por persona confirmada. Crea la hoja si no existe.
+  function registrarLog_(codigo, titular, confArr, d) {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var log = ss.getSheetByName(LOG_HOJA);
+    if (!log) {
+      log = ss.insertSheet(LOG_HOJA);
+      log.appendRow(['Fecha', 'Codigo', 'Titular', 'Persona', 'Niño', 'Asistencia', 'Requerimientos', 'Mensaje']);
+    }
+    var mapaLog = mapaColumnas_(log);
+    var ancho = Math.max(log.getLastColumn(), 8);
+    var ahora = new Date();
+    var asis = d.asistencia || '';
+    var req  = d.requerimientos || '';
+    var msg  = d.mensaje || '';
+
+    function filaLog(persona, nino) {
+      var row = new Array(ancho).fill('');
+      function set(k, v) { if (mapaLog[k] != null) row[mapaLog[k]] = v; }
+      set('fecha', ahora);
+      set('codigo', codigo);
+      set('titular', titular); set('nombre', titular);   // alias
+      set('persona', persona);
+      set('niño', nino); set('nino', nino);               // alias
+      set('asistencia', asis);
+      set('requerimientos', req); set('dieta', req);      // alias
+      set('mensaje', msg);
+      return row;
+    }
+
+    if (asis === 'si' && confArr.length) {
+      confArr.forEach(function (p) {
+        var esNino = /\(niñ[oa]\)/i.test(p) ? 'Sí' : '';
+        var nombre = p.replace(/\s*\(niñ[oa]\)\s*/i, '').trim();
+        log.appendRow(filaLog(nombre, esNino));
+      });
+    } else {
+      log.appendRow(filaLog('', ''));
+    }
   }
