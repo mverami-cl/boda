@@ -34,7 +34,7 @@ const CONFIG = {
     ciudad: 'Cochabamba, Bolivia',
     iglesia: {
       nombre: 'Iglesia Santa Teresa',
-      hora: '16:15 h',
+      hora: '16:00 h',
       maps_url: 'https://maps.app.goo.gl/JU3vovUHsKKZ5CgL6',
     },
     portal: {
@@ -49,10 +49,7 @@ const CONFIG = {
   //  DRESS CODE / FORMATO
   // ----------------------------------------------------------
   evento_info: {
-    dress_code: 'Formal',
-    ninos: 'Solo adultos',
-    formato: 'Boda de destino',
-    origen: 'Desde Chile',
+    dress_code: 'Formal'
   },
 
   // ----------------------------------------------------------
@@ -98,7 +95,7 @@ const CONFIG = {
   //  RSVP
   // ----------------------------------------------------------
   rsvp: {
-    deadline: '5 de septiembre de 2026',
+    deadline: '10 de septiembre de 2026',
     endpoint: 'https://script.google.com/macros/s/AKfycbxieEjqtAZpulL6HyK0A_IkZtprlugxBIZCxnoEiNAP8wBndTBceV8_vUUQBO0gm2M/exec',
   },
 
@@ -110,18 +107,18 @@ const CONFIG = {
   regalo: {
     // Chile → lista de novios
     cl: {
-      texto:  'Su presencia es el mejor regalo que podemos recibir. Para quienes deseen expresar su cariño con un obsequio, les compartimos la manera de hacerlo llegar:',
+      texto:  'Tu presencia es el mejor regalo que podemos recibir. Para quienes deseen expresar su cariño con un obsequio, les compartimos la manera de hacerlo llegar:',
       tienda: 'Paris',
       codigo: '21051993',   // código de lista de novios (null → sin código)
     },
     // Bolivia → transferencia
     bo: {
-      texto:   'Su presencia es el mejor regalo que podemos recibir. Como nuestra vida está fuera de Bolivia, para quienes deseen expresar su cariño con un obsequio, les compartimos la manera de hacerlo llegar:',
+      texto:   'Tu presencia es el mejor regalo que podemos recibir. Como nuestra vida está fuera de Bolivia, para quienes deseen expresar su cariño con un obsequio, les compartimos la manera de hacerlo llegar:',
       banco:   '',   // TODO Mario — ej: 'Banco Nacional de Bolivia'
       titular: '',   // TODO Mario — ej: 'Mario Vergara'
       cuenta:  '',   // TODO Mario — ej: '1234-5678'
     },
-    cierre: '¡Gracias por todo su cariño!',
+    cierre: '¡Te esperamos!',
   },
 
 };
