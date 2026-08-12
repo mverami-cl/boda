@@ -84,7 +84,15 @@
           acom_2:   val(r, 'acom_2'),
           acom_3:   val(r, 'acom_3'),
           acom_4:   val(r, 'acom_4'),
-          acom_5:   val(r, 'acom_5')
+          acom_5:   val(r, 'acom_5'),
+          // Respuesta previa (para mostrar "ya confirmado" sin volver a pedir datos)
+          asistencia:  val(r, 'asistencia'),
+          confirmados: val(r, 'confirmados'),
+          conf_1:   val(r, 'conf_1'),
+          conf_2:   val(r, 'conf_2'),
+          conf_3:   val(r, 'conf_3'),
+          conf_4:   val(r, 'conf_4'),
+          conf_5:   val(r, 'conf_5')
         });
       }
     }

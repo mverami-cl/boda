@@ -650,6 +650,40 @@
       margin: 1.5rem auto 0;
       line-height: 1.9;
     }
+    .rsvp-ya {
+      max-width: 480px;
+      margin: 2.5rem auto 0;
+      border: 1px solid var(--dorado);
+      padding: 2rem 1.8rem;
+      text-align: center;
+    }
+    .rsvp-ya-titulo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--negro);
+      margin-bottom: 0.6rem;
+    }
+    .rsvp-ya-texto {
+      font-size: 0.82rem;
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 1.4rem;
+    }
+    .btn-modificar {
+      padding: 0.55rem 1.4rem;
+      background: transparent;
+      border: 1px solid rgba(26,26,26,0.2);
+      color: var(--negro);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-modificar:hover { border-color: var(--dorado); color: var(--dorado); }
     .rsvp-marco {
       border: 1px solid var(--dorado);
       padding: 3rem 2.5rem;
@@ -1191,84 +1225,6 @@
     }
 
     /* ================================
-       MODAL RECORDATORIO DE REGALO
-    ================================ */
-    .regalo-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(26,26,26,0.55);
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-    }
-    .regalo-modal-card {
-      background: var(--crema);
-      border: 1px solid var(--dorado);
-      max-width: 420px;
-      width: 100%;
-      padding: 2.4rem 2rem;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(26,26,26,0.25);
-    }
-    .regalo-modal-titulo {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 1.6rem;
-      color: var(--negro);
-      margin-bottom: 0.6rem;
-    }
-    .regalo-modal-texto {
-      font-size: 0.82rem;
-      color: #666;
-      line-height: 1.7;
-      margin-bottom: 1.3rem;
-    }
-    .regalo-modal-bloque { margin-bottom: 1rem; }
-    .regalo-modal-cierre {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 1rem;
-      color: var(--dorado);
-      margin: 0.6rem 0 1.4rem;
-    }
-    .regalo-modal-botones {
-      display: flex;
-      gap: 0.8rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .regalo-modal-btn {
-      padding: 0.8rem 1.6rem;
-      background: var(--fondo-oscuro);
-      border: 1px solid var(--fondo-oscuro);
-      color: var(--crema);
-      font-family: 'Jost', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 300;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
-    }
-    .regalo-modal-btn:hover {
-      background: var(--dorado);
-      border-color: var(--dorado);
-      color: var(--fondo-oscuro);
-    }
-    .regalo-modal-btn.secundario {
-      background: transparent;
-      color: var(--negro);
-      border-color: rgba(26,26,26,0.2);
-    }
-    .regalo-modal-btn.secundario:hover {
-      background: transparent;
-      border-color: var(--dorado);
-      color: var(--dorado);
-    }
-
-    /* ================================
        REGALO
     ================================ */
     #regalo { background: var(--fondo-oscuro); }
@@ -1682,6 +1638,13 @@
       </div>
       <p class="rsvp-intro">Esta fiesta no estaría completa sin ti. Cuéntanos si nos acompañas antes del&nbsp;<strong id="rsvp-deadline"></strong> — cada confirmación nos ayuda a preparar una noche inolvidable para todos.</p>
 
+      <!-- Estado "ya respondiste" (visible solo si el invitado ya confirmó) -->
+      <div class="rsvp-ya" id="rsvp-ya" style="display:none">
+        <p class="rsvp-ya-titulo">Ya estás confirmado/a ✓</p>
+        <p class="rsvp-ya-texto" id="rsvp-ya-texto"></p>
+        <button type="button" class="btn-modificar" onclick="modificarRespuesta()">Modificar mi respuesta</button>
+      </div>
+
       <div class="rsvp-marco">
         <form class="rsvp-form" id="rsvp-form" action="" method="POST">
           <input type="hidden" name="codigo_invitado" id="campo-codigo">
@@ -1782,13 +1745,7 @@
           <a id="btn-ical" href="#" class="btn-cal" download="boda-ivanna-mario.ics">Apple / iCal</a>
         </div>
 
-        <button class="btn-descargar" onclick="recordarYDescargar()">Descargar pase (PDF)</button>
-      </div>
-
-      <!-- Invitación a ver el regalo -->
-      <div class="qr-cta">
-        <p class="qr-cta-texto">Nos encantaría contar contigo. Si deseas acompañarnos con un regalo:</p>
-        <a href="#regalo" class="btn-ver-regalo">Ver nuestro regalo</a>
+        <button class="btn-descargar" onclick="descargarPase()">Descargar pase (PDF)</button>
       </div>
     </div>
   </section>
@@ -1833,20 +1790,6 @@
   </footer>
 
 </div><!-- /main -->
-
-<!-- Modal: recordatorio de regalo antes de descargar el pase -->
-<div class="regalo-modal" id="regalo-modal" onclick="if(event.target===this)cerrarRegaloModal()">
-  <div class="regalo-modal-card">
-    <p class="regalo-modal-titulo">Antes de descargar tu pase…</p>
-    <p class="regalo-modal-texto">Tu presencia es nuestro mejor regalo. Y si además quieres tener un detalle con nosotros:</p>
-    <div id="regalo-modal-datos"></div>
-    <p class="regalo-modal-cierre">¡Gracias por todo su cariño!</p>
-    <div class="regalo-modal-botones">
-      <button class="regalo-modal-btn secundario" onclick="cerrarRegaloModal()">Cerrar</button>
-      <button class="regalo-modal-btn" onclick="cerrarRegaloModal(); descargarQR()">Descargar pase</button>
-    </div>
-  </div>
-</div>
 
 <!-- Configuración editable -->
 <script src="config.js"></script>
@@ -1993,37 +1936,11 @@
     }
   }
 
-  // Rellena el modal recordatorio con el regalo según país.
-  function renderRegaloModal() {
-    const G = CONFIG.regalo;
-    const pais = invitadoActual ? invitadoActual.pais : '';
-    const datos = document.getElementById('regalo-modal-datos');
-    if (!datos) return;
-    const verCL = pais === 'cl' || !pais;
-    const verBO = pais === 'bo' || !pais;
-    let html = '';
-    if (verCL) {
-      html += '<div class="regalo-modal-bloque">' +
-        '<p class="qr-regalo-label">Lista de novios' + (G.cl.tienda ? ' · ' + G.cl.tienda : '') + '</p>' +
-        '<p class="qr-regalo-codigo">' + (G.cl.codigo || 'Por confirmar') + '</p>' +
-        '</div>';
-    }
-    if (verBO) {
-      html += '<div class="regalo-modal-bloque">' +
-        '<p class="qr-regalo-label">Datos para transferencia</p>' +
-        '<p class="qr-regalo-banco">' + datosBancarios(G.bo) + '</p>' +
-        '</div>';
-    }
-    datos.innerHTML = html;
-  }
-
-  // El botón "Descargar pase" primero recuerda el regalo, y desde el modal se descarga.
-  function recordarYDescargar() {
-    renderRegaloModal();
-    document.getElementById('regalo-modal').style.display = 'flex';
-  }
-  function cerrarRegaloModal() {
-    document.getElementById('regalo-modal').style.display = 'none';
+  // El botón "Descargar pase" descarga el PDF y lleva a la sección de regalo.
+  function descargarPase() {
+    const reg = document.getElementById('regalo');
+    if (reg) reg.scrollIntoView({ behavior: 'smooth' });
+    descargarQR();
   }
 
   // ================================
@@ -2100,6 +2017,43 @@
     construirSelector();
     aplicarRegaloPais();
     aplicarPaisContenido();
+    aplicarRespuestaPrevia(d);
+  }
+
+  // Si el invitado YA respondió (la planilla trae asistencia), mostramos su
+  // estado en vez de pedir cargar todo de nuevo.
+  function aplicarRespuestaPrevia(d) {
+    const asis = String(d.asistencia || '').trim().toLowerCase();
+    if (asis !== 'si' && asis !== 'no') return;   // aún no respondió
+
+    // Reconstruir la lista de confirmados (columna "Confirmados" o Conf_1..5)
+    let confArr = String(d.confirmados || '').split(' / ').map(s => s.trim()).filter(Boolean);
+    if (!confArr.length) {
+      confArr = [d.conf_1, d.conf_2, d.conf_3, d.conf_4, d.conf_5]
+        .map(x => (x == null ? '' : String(x).trim())).filter(Boolean);
+    }
+
+    const marco   = document.querySelector('#rsvp .rsvp-marco');
+    const ya      = document.getElementById('rsvp-ya');
+    const yaTexto = document.getElementById('rsvp-ya-texto');
+    if (marco) marco.style.display = 'none';       // ocultar el formulario
+
+    if (asis === 'si') {
+      if (yaTexto) yaTexto.textContent = '¡Gracias! Ya confirmaste tu asistencia. Tu pase está más abajo.';
+      const lista = confArr.length ? confArr : [invitadoActual.nombre];
+      mostrarQR(invitadoActual.nombre, lista.length, lista, false);   // sin auto-scroll
+    } else {
+      if (yaTexto) yaTexto.textContent = 'Ya nos avisaste que no podrás acompañarnos. ¡Gracias por avisar!';
+    }
+    if (ya) ya.style.display = 'block';
+  }
+
+  // Permite volver a mostrar el formulario para cambiar la respuesta.
+  function modificarRespuesta() {
+    const marco = document.querySelector('#rsvp .rsvp-marco');
+    const ya    = document.getElementById('rsvp-ya');
+    if (ya)    ya.style.display = 'none';
+    if (marco) { marco.style.display = ''; marco.scrollIntoView({ behavior: 'smooth' }); }
   }
 
   function mostrarCampoNombreLibre() {
@@ -2341,7 +2295,8 @@
   // ================================
   let paseData = { nombre: '', personas: 1, confirmados: [] };
 
-  function mostrarQR(nombre, personas, confirmados) {
+  function mostrarQR(nombre, personas, confirmados, autoScroll) {
+    autoScroll = autoScroll !== false;   // por defecto true (flujo de envío)
     confirmados = (confirmados && confirmados.length) ? confirmados : [nombre];
     paseData = { nombre: nombre, personas: personas, confirmados: confirmados };
 
@@ -2358,7 +2313,7 @@
 
     const sec = document.getElementById('qr-section');
     sec.classList.add('visible');
-    setTimeout(() => sec.scrollIntoView({ behavior: 'smooth' }), 100);
+    if (autoScroll) setTimeout(() => sec.scrollIntoView({ behavior: 'smooth' }), 100);
 
     const btn = document.getElementById('btn-enviar');
     btn.textContent = 'Confirmado ✓';
