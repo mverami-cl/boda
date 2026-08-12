@@ -2342,32 +2342,34 @@
     }
 
     const namesHTML = nombres.map(function (n) {
-      return '<div style="font-family:' + serif + ';font-size:27px;line-height:1.45;color:#1a1a1a">' + escapeHTML(n) + '</div>';
+      return '<div style="font-family:' + serif + ';font-size:26px;line-height:1.5;color:#1a1a1a">' + escapeHTML(n) + '</div>';
     }).join('');
 
+    // Proporción vertical tipo pantalla de teléfono (600 × 1150 ≈ 9:17)
     const wrap = document.createElement('div');
     wrap.style.cssText =
-      'position:fixed;left:-9999px;top:0;width:600px;box-sizing:border-box;' +
+      'position:fixed;left:-9999px;top:0;width:600px;height:1150px;box-sizing:border-box;' +
       'text-align:center;color:#1a1a1a;background:#FAF7F2;overflow:hidden;';
 
     wrap.innerHTML =
-      '<div style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:url(\'assets/img/texture-paper.jpg\');background-size:cover;background-position:center;opacity:0.3"></div>' +
-      '<div style="position:relative;padding:34px">' +
-      '<div style="border:2px solid #c9b97a;padding:8px">' +
-      '<div style="border:1px solid rgba(201,185,122,0.55);padding:34px 30px">' +
-        '<div style="font-family:' + sans + ';font-size:13px;letter-spacing:7px;color:#c9b97a">PASE DE ENTRADA</div>' +
-        '<div style="font-family:' + serif + ';font-style:italic;font-size:48px;line-height:1.1;color:#1a1a1a;margin:16px 0 8px">' + escapeHTML(N.ella) + ' &amp; ' + escapeHTML(N.el) + '</div>' +
+      // Fondos: textura de papel + gypsophila (flowers-top) arriba y espejada abajo, tras el texto
+      '<div style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:url(\'assets/img/texture-paper.jpg\');background-size:cover;background-position:center;opacity:0.28"></div>' +
+      '<img src="assets/img/flowers-top.png" style="position:absolute;top:0;left:0;width:100%;opacity:0.45">' +
+      '<img src="assets/img/flowers-top.png" style="position:absolute;bottom:0;left:0;width:100%;opacity:0.45;transform:rotate(180deg)">' +
+      // Marco dorado sutil (tipo invitación)
+      '<div style="position:absolute;top:22px;left:22px;right:22px;bottom:22px;border:1px solid rgba(201,185,122,0.7)"></div>' +
+      // Contenido centrado verticalmente
+      '<div style="position:relative;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;padding:64px 48px">' +
+        '<div style="font-family:' + serif + ';font-style:italic;font-size:52px;line-height:1.05;color:#1a1a1a;margin-bottom:10px">' + escapeHTML(N.ella) + ' &amp; ' + escapeHTML(N.el) + '</div>' +
         '<div style="font-family:' + sans + ';font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#4a5c3a">' + escapeHTML(E.fecha_corta) + '</div>' +
-        '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.5);margin:20px 36px 20px">' +
-        '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:5px;color:#c9b97a;margin-bottom:12px">INVITADOS CONFIRMADOS</div>' +
+        '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.55);margin:30px 30px">' +
+        '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:5px;color:#c9b97a;margin-bottom:14px">INVITADOS CONFIRMADOS</div>' +
         namesHTML +
-        '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.5);margin:22px 36px 20px">' +
+        '<hr style="border:none;border-top:1px solid rgba(201,185,122,0.55);margin:30px 30px">' +
         lugar('Ceremonia · ' + (L.iglesia.hora || ''), L.iglesia.nombre, 'pdf-link-iglesia') +
-        '<div style="height:18px"></div>' +
+        '<div style="height:20px"></div>' +
         lugar('Recepción y fiesta · ' + (L.portal.hora || ''), L.portal.nombre, 'pdf-link-portal') +
-        '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#4a5c3a;margin-top:26px">Dress code: ' + escapeHTML(CONFIG.evento_info.dress_code) + '</div>' +
-      '</div>' +
-      '</div>' +
+        '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#4a5c3a;margin-top:30px">Dress code: ' + escapeHTML(CONFIG.evento_info.dress_code) + '</div>' +
       '</div>';
     return wrap;
   }
