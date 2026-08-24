@@ -40,7 +40,7 @@ const CONFIG = {
     portal: {
       nombre: 'El Portal',
       nombre2: 'Centro de Convenciones y Eventos',   // puede dejarse ''
-      hora: '18:30 h',
+      hora: '18:00 h',
       maps_url: 'https://maps.google.com/?q=El+Portal+Centro+de+Convenciones+Cochabamba+Bolivia',
     },
   },

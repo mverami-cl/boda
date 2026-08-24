@@ -1546,9 +1546,9 @@
           <div class="timeline-texto" data-hora="16:30 h">Ceremonia<span class="timeline-lugar">Iglesia Santa Teresa</span></div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-hora">18:30 h</div>
+          <div class="timeline-hora">18:00 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="18:30 h">Recepción<span class="timeline-lugar">El Portal</span></div>
+          <div class="timeline-texto" data-hora="18:00 h">Recepción<span class="timeline-lugar">El Portal</span></div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">20:00 h</div>
@@ -1584,11 +1584,10 @@
 
         <div class="llegar-bloque">
           <span class="bloque-num">02</span>
-          <p class="bloque-titulo">Los lugares</p>
-          <p class="lugar-sub">Ceremonia</p>
+          <p class="lugar-sub" id="lugar-iglesia-sub"></p>
           <p class="lugar-nombre" id="lugar-iglesia-nombre"></p>
           <a id="lugar-iglesia-maps" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
-          <p class="lugar-sub" style="margin-top:1.4rem">Recepción y fiesta</p>
+          <p class="lugar-sub" id="lugar-portal-sub" style="margin-top:1.4rem"></p>
           <p class="lugar-nombre" id="lugar-portal-nombre"></p>
           <a id="lugar-portal-maps" href="#" target="_blank" rel="noopener">Ver en Google Maps →</a>
         </div>
@@ -1798,7 +1797,6 @@
       <div class="regalo-bloque" id="regalo-bo" style="display:none">
         <p class="regalo-texto" id="regalo-bo-texto"></p>
         <div class="regalo-marco">
-          <p class="regalo-label">Escanea para transferir</p>
           <img class="regalo-qr" id="regalo-bo-qr" alt="QR para transferencia — Banco Mercantil Santa Cruz" loading="lazy">
         </div>
         <p class="regalo-cierre" id="regalo-bo-cierre"></p>
@@ -1864,8 +1862,10 @@
     renderRecos('lista-reco-novio', C.recomendaciones.novio);
 
     // Cómo llegar — lugares (iglesia + portal)
+    setText('lugar-iglesia-sub', 'Ceremonia' + (L.iglesia.hora ? ' · ' + L.iglesia.hora : ''));
     setText('lugar-iglesia-nombre', L.iglesia.nombre);
     setAttr('lugar-iglesia-maps', 'href', L.iglesia.maps_url);
+    setText('lugar-portal-sub', 'Recepción y fiesta' + (L.portal.hora ? ' · ' + L.portal.hora : ''));
     setText('lugar-portal-nombre', L.portal.nombre + (L.portal.nombre2 ? ' · ' + L.portal.nombre2 : ''));
     setAttr('lugar-portal-maps', 'href', L.portal.maps_url);
 
