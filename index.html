@@ -1263,13 +1263,32 @@
       color: rgba(250,247,242,0.3);
       margin-top: 0.4rem;
     }
-    .regalo-banco {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-weight: 400;
-      color: var(--crema);
-      line-height: 1.6;
-      letter-spacing: 0.02em;
+    .regalo-boton {
+      display: inline-block;
+      margin-top: 1.6rem;
+      padding: 0.75rem 2rem;
+      background: transparent;
+      color: var(--dorado);
+      border: 1px solid var(--dorado);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .regalo-boton:hover {
+      background: var(--dorado);
+      color: var(--negro);
+    }
+    /* QR de transferencia (Bolivia) */
+    .regalo-qr {
+      display: block;
+      width: clamp(190px, 62vw, 250px);
+      height: auto;
+      margin: 0 auto;
+      border-radius: 6px;
     }
     .regalo-cierre {
       font-family: 'Cormorant Garamond', serif;
@@ -1522,9 +1541,9 @@
 
       <div class="timeline">
         <div class="timeline-item">
-          <div class="timeline-hora">16:00 h</div>
+          <div class="timeline-hora">16:30 h</div>
           <div class="timeline-dot"></div>
-          <div class="timeline-texto" data-hora="16:00 h">Ceremonia<span class="timeline-lugar">Iglesia Santa Teresa</span></div>
+          <div class="timeline-texto" data-hora="16:30 h">Ceremonia<span class="timeline-lugar">Iglesia Santa Teresa</span></div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hora">18:30 h</div>
@@ -1769,15 +1788,18 @@
           <p class="regalo-codigo" id="regalo-cl-codigo"></p>
           <p class="regalo-tienda" id="regalo-cl-tienda"></p>
         </div>
+        <div>
+          <a class="regalo-boton" id="regalo-cl-link" href="#" target="_blank" rel="noopener">Ver lista de novios</a>
+        </div>
         <p class="regalo-cierre" id="regalo-cl-cierre"></p>
       </div>
 
-      <!-- Bolivia → transferencia -->
+      <!-- Bolivia → transferencia (QR del banco) -->
       <div class="regalo-bloque" id="regalo-bo" style="display:none">
         <p class="regalo-texto" id="regalo-bo-texto"></p>
         <div class="regalo-marco">
-          <p class="regalo-label">Datos para transferencia</p>
-          <p class="regalo-banco" id="regalo-bo-datos"></p>
+          <p class="regalo-label">Escanea para transferir</p>
+          <img class="regalo-qr" id="regalo-bo-qr" alt="QR para transferencia — Banco Mercantil Santa Cruz" loading="lazy">
         </div>
         <p class="regalo-cierre" id="regalo-bo-cierre"></p>
       </div>
@@ -1863,9 +1885,12 @@
     setText('regalo-cl-texto',  G.cl.texto);
     setText('regalo-cl-codigo', G.cl.codigo || 'Por confirmar');
     setText('regalo-cl-tienda', G.cl.tienda ? 'Novios ' + G.cl.tienda : '');
+    setAttr('regalo-cl-link',   'href', G.cl.url || '#');
+    const btnLista = document.getElementById('regalo-cl-link');
+    if (btnLista) btnLista.parentElement.style.display = G.cl.url ? '' : 'none';
     setText('regalo-cl-cierre', G.cierre);
     setText('regalo-bo-texto',  G.bo.texto);
-    setHtml('regalo-bo-datos',  datosBancarios(G.bo));
+    setAttr('regalo-bo-qr',     'src', G.bo.qr);
     setText('regalo-bo-cierre', G.cierre);
     aplicarRegaloPais();
 
@@ -1900,14 +1925,6 @@
     ).join('');
   }
 
-  // Datos bancarios de Bolivia (placeholder visible si aún no se cargan)
-  function datosBancarios(bo) {
-    const banco   = bo.banco   || '[Banco]';
-    const titular = bo.titular || '[Nombre titular]';
-    const cuenta  = bo.cuenta  || 'XXXX-XXXX';
-    return banco + ' · ' + titular + '<br>Cuenta N.º ' + cuenta;
-  }
-
   // Muestra el bloque de regalo según el país del invitado.
   // Sin país conocido (sin código o país vacío) → muestra ambos.
   function aplicarRegaloPais() {
@@ -1920,11 +1937,13 @@
   }
 
   // Contenido condicional por país: los bolivianos (locales) no necesitan info
-  // de viaje ni recomendaciones — solo ven el cuadro de lugares.
+  // de viaje, recomendaciones ni cronograma — solo ven el cuadro de lugares.
   function aplicarPaisContenido() {
     const bo = !!(invitadoActual && invitadoActual.pais === 'bo');
     const llegar = document.getElementById('llegar');
     const reco   = document.getElementById('recomendaciones');
+    const crono  = document.getElementById('cronograma');
+    if (crono) crono.style.display = bo ? 'none' : '';
     document.querySelectorAll('#llegar .solo-viaje').forEach(el => {
       el.style.display = bo ? 'none' : '';
     });

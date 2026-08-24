@@ -21,9 +21,9 @@ const CONFIG = {
     fecha_larga: 'Viernes, 23 de Octubre de 2026',   // Hero y detalles
     fecha_corta: 'Viernes · 23 de Octubre · 2026',   // Entrada y pie
     fecha_iso: '2026-10-23',                        // Para el calendario (.ics)
-    hora: '16:00 h',                               // Convocatoria / ceremonia
+    hora: '16:30 h',                               // Convocatoria / ceremonia
     hora_confirmada: true,    // false → muestra "(por confirmar)" junto a la hora
-    hora_iso_inicio: '20261023T160000',                  // Para calendario (ceremonia 16:15)
+    hora_iso_inicio: '20261023T163000',                  // Para calendario (ceremonia 16:30)
     hora_iso_fin: '20261024T020000',                     // Fin de fiesta 02:00
   },
 
@@ -34,7 +34,7 @@ const CONFIG = {
     ciudad: 'Cochabamba, Bolivia',
     iglesia: {
       nombre: 'Iglesia Santa Teresa',
-      hora: '16:00 h',
+      hora: '16:30 h',
       maps_url: 'https://maps.app.goo.gl/JU3vovUHsKKZ5CgL6',
     },
     portal: {
@@ -110,13 +110,12 @@ const CONFIG = {
       texto:  'Tu presencia es el mejor regalo que podemos recibir. Para quienes deseen expresar su cariño con un obsequio, les compartimos la manera de hacerlo llegar:',
       tienda: 'Paris',
       codigo: '21051993',   // código de lista de novios (null → sin código)
+      url:    'https://club.noviosparis.cl/home/couple-catalog/21051993',   // '' → sin botón
     },
-    // Bolivia → transferencia
+    // Bolivia → transferencia (QR del banco)
     bo: {
       texto:   'Tu presencia es el mejor regalo que podemos recibir. Como nuestra vida está fuera de Bolivia, para quienes deseen expresar su cariño con un obsequio, les compartimos la manera de hacerlo llegar:',
-      banco:   '',   // TODO Mario — ej: 'Banco Nacional de Bolivia'
-      titular: '',   // TODO Mario — ej: 'Mario Vergara'
-      cuenta:  '',   // TODO Mario — ej: '1234-5678'
+      qr:      'assets/img/QR_banco.jpeg',   // QR Mercantil Santa Cruz (trae titular y cuenta)
     },
     cierre: '¡Te esperamos!',
   },
