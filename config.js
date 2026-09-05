@@ -113,9 +113,9 @@ const CONFIG = {
       codigo: '21051993',   // código de lista de novios (null → sin código)
       url:    'https://club.noviosparis.cl/home/couple-catalog/21051993',   // '' → sin botón
     },
-    // Bolivia → transferencia (QR del banco)
+    // Bolivia → lluvia de sobres o transferencia (QR del banco)
     bo: {
-      texto:   'Tu presencia es el mejor regalo que podemos recibir. Como nuestra vida está fuera de Bolivia, para quienes deseen expresar su cariño con un obsequio, les compartimos la manera de hacerlo llegar:',
+      texto:   'Tu presencia es el mejor regalo que podemos recibir. Como nuestra vida está fuera de Bolivia, para quienes deseen expresar su cariño con un obsequio, nos lo pueden hacer llegar a través de una lluvia de sobres el día del evento o a través del siguiente QR:',
       qr:      'assets/img/QR_banco.jpeg',   // QR Mercantil Santa Cruz (trae titular y cuenta)
     },
     cierre: '¡Te esperamos!',
