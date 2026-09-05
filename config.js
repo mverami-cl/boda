@@ -48,8 +48,9 @@ const CONFIG = {
   // ----------------------------------------------------------
   //  DRESS CODE / FORMATO
   // ----------------------------------------------------------
+  //  Depende del país del invitado. Sin país conocido → se muestran ambos.
   evento_info: {
-    dress_code: 'Gala'
+    dress_code: { cl: 'Formal', bo: 'Gala' },
   },
 
   // ----------------------------------------------------------

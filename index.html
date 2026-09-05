@@ -1033,19 +1033,6 @@
       box-shadow: 0 20px 60px rgba(26,26,26,0.07);
       position: relative;
     }
-    .qr-pase::before {
-      content: 'PASE DE ACCESO';
-      position: absolute;
-      top: -0.65rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--crema);
-      padding: 0 1rem;
-      font-size: 0.52rem;
-      letter-spacing: 0.5em;
-      color: var(--dorado);
-      white-space: nowrap;
-    }
     .qr-nombre {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.55rem;
@@ -1205,15 +1192,18 @@
       margin-bottom: 1.2rem;
     }
     .btn-ver-regalo {
-      display: inline-block;
+      display: block;
+      width: 100%;
+      margin-top: 1.6rem;
+      cursor: pointer;
       padding: 0.75rem 2rem;
       background: var(--fondo-oscuro);
       color: var(--crema);
       border: 1px solid var(--fondo-oscuro);
       font-family: 'Jost', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       font-weight: 300;
-      letter-spacing: 0.38em;
+      letter-spacing: 0.36em;
       text-transform: uppercase;
       text-decoration: none;
       transition: background 0.3s, color 0.3s, border-color 0.3s;
@@ -1763,7 +1753,8 @@
           <a id="btn-ical" href="#" class="btn-cal" download="boda-ivanna-mario.ics">Apple / iCal</a>
         </div>
 
-        <button class="btn-descargar" onclick="descargarPase()">Descargar pase (PDF)</button>
+        <button class="btn-ver-regalo" onclick="irARegalo()">Sugerencias de regalo</button>
+        <button class="btn-descargar" onclick="descargarPase()">Descargar invitación (PDF)</button>
       </div>
     </div>
   </section>
@@ -1852,7 +1843,7 @@
     setText('det-hora-nota', E.hora_confirmada ? '' : 'Por confirmar');
     setText('det-lugar',    L.iglesia.nombre);
     setText('det-ciudad',   L.ciudad);
-    setText('det-dresscode', I.dress_code);
+    setText('det-dresscode', dressCode());
 
     // Cómo llegar — listas
     renderLista('lista-vuelos', V.vuelos);
@@ -1925,6 +1916,15 @@
     ).join('');
   }
 
+  // Dress code según el país del invitado; sin país conocido → ambos.
+  function dressCode() {
+    const dc = CONFIG.evento_info.dress_code;
+    if (typeof dc === 'string') return dc;
+    const pais = invitadoActual ? invitadoActual.pais : '';
+    if (dc[pais]) return dc[pais];
+    return [dc.cl, dc.bo].filter(Boolean).join(' · ');
+  }
+
   // Muestra el bloque de regalo según el país del invitado.
   // Sin país conocido (sin código o país vacío) → muestra ambos.
   function aplicarRegaloPais() {
@@ -1944,6 +1944,8 @@
     const reco   = document.getElementById('recomendaciones');
     const crono  = document.getElementById('cronograma');
     if (crono) crono.style.display = bo ? 'none' : '';
+    // renderConfig() corre antes de conocer al invitado: refrescar el dress code
+    setText('det-dresscode', dressCode());
     document.querySelectorAll('#llegar .solo-viaje').forEach(el => {
       el.style.display = bo ? 'none' : '';
     });
@@ -1955,10 +1957,15 @@
     }
   }
 
-  // El botón "Descargar pase" descarga el PDF y lleva a la sección de regalo.
-  function descargarPase() {
+  // Lleva a la sección de regalo (botón "Sugerencias de regalo").
+  function irARegalo() {
     const reg = document.getElementById('regalo');
     if (reg) reg.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // El botón de descarga baja el PDF y además lleva a la sección de regalo.
+  function descargarPase() {
+    irARegalo();
     descargarQR();
   }
 
@@ -2031,7 +2038,7 @@
     document.getElementById('rsvp-pases-nombre').textContent   = d.nombre;
     const n = Number(d.personas);
     document.getElementById('rsvp-pases-cantidad').textContent =
-      n === 1 ? '1 pase' : n + ' pases';
+      n === 1 ? '1 lugar' : n + ' lugares';
     document.getElementById('campo-nombre-wrap').style.display = 'none';
     construirSelector();
     aplicarRegaloPais();
@@ -2058,7 +2065,7 @@
     if (marco) marco.style.display = 'none';       // ocultar el formulario
 
     if (asis === 'si') {
-      if (yaTexto) yaTexto.textContent = '¡Gracias! Ya confirmaste tu asistencia. Tu pase está más abajo.';
+      if (yaTexto) yaTexto.textContent = '¡Gracias! Ya confirmaste tu asistencia. Tu invitación está más abajo.';
       const lista = confArr.length ? confArr : [invitadoActual.nombre];
       mostrarQR(invitadoActual.nombre, lista.length, lista, false);   // sin auto-scroll
     } else {
@@ -2320,7 +2327,7 @@
     paseData = { nombre: nombre, personas: personas, confirmados: confirmados };
 
     document.getElementById('qr-info').textContent =
-      'Dress code · ' + CONFIG.evento_info.dress_code;
+      'Dress code · ' + dressCode();
 
     // Invitados confirmados (siempre)
     const lista = document.getElementById('qr-lista');
@@ -2388,7 +2395,7 @@
         lugar('Ceremonia · ' + (L.iglesia.hora || ''), L.iglesia.nombre, 'pdf-link-iglesia') +
         '<div style="height:20px"></div>' +
         lugar('Recepción y fiesta · ' + (L.portal.hora || ''), L.portal.nombre, 'pdf-link-portal') +
-        '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#4a5c3a;margin-top:30px">Dress code: ' + escapeHTML(CONFIG.evento_info.dress_code) + '</div>' +
+        '<div style="font-family:' + sans + ';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#4a5c3a;margin-top:30px">Dress code: ' + escapeHTML(dressCode()) + '</div>' +
       '</div>';
     return wrap;
   }
@@ -2424,7 +2431,7 @@
       });
 
       const slug = (paseData.nombre || 'invitado').toLowerCase().replace(/\s+/g, '-');
-      doc.save('pase-boda-' + slug + '.pdf');
+      doc.save('invitacion-boda-' + slug + '.pdf');
     } catch (err) {
       console.error('descargarQR error:', err);
       alert('No se pudo generar el PDF. Intenta de nuevo.');
@@ -2447,7 +2454,7 @@
     const inicio  = E.hora_iso_inicio;
     const fin     = E.hora_iso_fin;
     const lugar   = encodeURIComponent(L.iglesia.nombre + ', ' + L.ciudad);
-    const detalle = encodeURIComponent('Ceremonia en ' + L.iglesia.nombre + '. Recepción en ' + L.portal.nombre + '. Dress code: ' + I.dress_code + '.');
+    const detalle = encodeURIComponent('Ceremonia en ' + L.iglesia.nombre + '. Recepción en ' + L.portal.nombre + '. Dress code: ' + dressCode() + '.');
 
     document.getElementById('btn-gcal').href =
       'https://calendar.google.com/calendar/render?action=TEMPLATE' +
@@ -2461,7 +2468,7 @@
       'DTEND:'   + fin,
       'SUMMARY:' + nombreEvento,
       'LOCATION:' + L.iglesia.nombre + '\\, ' + L.ciudad,
-      'DESCRIPTION:Ceremonia en ' + L.iglesia.nombre + '. Recepción en ' + L.portal.nombre + '. Dress code: ' + I.dress_code + '.',
+      'DESCRIPTION:Ceremonia en ' + L.iglesia.nombre + '. Recepción en ' + L.portal.nombre + '. Dress code: ' + dressCode() + '.',
       'END:VEVENT', 'END:VCALENDAR'
     ].join('\r\n');
 
